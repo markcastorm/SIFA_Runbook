@@ -1,0 +1,48 @@
+======================================================================
+SIFA COMPARISON REPORT
+======================================================================
+
+Generated:  2026-05-08 21:50:36
+
+FILES COMPARED:
+  Pipeline Output : SIFA_DATA.csv
+  Reference       : SIFA_DATA_20250212.xlsx
+  Source files    : 5 year(s)
+
+OVERALL STATISTICS:
+  Total cells compared : 490
+  Matches              : 210 (42.86%)
+  Mismatches           : 0
+  Missing (in ref)     : 280
+  New values (extra)   : 0
+
+OUTPUT FILES:
+  report_mismatches.csv  (0 rows)
+  report_missing.csv     (280 rows)
+  report_new_values.csv  (0 rows)
+
+──────────────────────────────────────────────────────────────────────
+MISSING  (present in reference, absent in pipeline)
+──────────────────────────────────────────────────────────────────────
+
+  By Section:
+    All types of funds: 40
+    Balanced funds: 40
+    Equity funds: 40
+    Hedge funds: 40
+    Long term fixed income: 40
+    Other funds: 40
+    Short term fixed income: 40
+
+  By Quarter:
+    2024-Q3: 280
+
+  Source files copied to  files/missing/:
+    fund-saving-by-category-2024.xlsx
+
+======================================================================
+Detailed CSV reports:
+  report_mismatches.csv
+  report_missing.csv
+  report_new_values.csv
+======================================================================

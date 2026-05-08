@@ -148,55 +148,42 @@ def _detect_quarters_with_data(ws, data_rows):
 # Value extraction
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _clean_float(val):
+def _copy_values_sheet(wb):
     """
-    Remove IEEE 754 floating-point artifacts from Excel cell values.
+    Copy all cell values from the active sheet to a new sheet.
 
-    openpyxl reads cached formula results as raw doubles which carry
-    FP noise (e.g. -9229.289999999997 instead of -9229.29, or
-    8888.570000000005 instead of 8888.57).
-
-    Algorithm: try rounding to 2, 3, 4, ... 15 decimal places.
-    Return the first (fewest-decimal) version whose relative error
-    vs the raw double is < 1e-9.  This threshold is tight enough to
-    preserve real precision (percentages, sub-cent amounts) while
-    removing obvious 000…/999… FP noise.
-
-    Examples:
-        -9229.289999999997  →  -9229.29       (2 dp, rel err 3e-16)
-        8888.570000000005   →  8888.57         (2 dp, rel err 6e-16)
-        773.6599999999987   →  773.66          (2 dp, rel err 2e-17)
-        -9.709155113673571  →  -9.709155113674 (12 dp, preserves precision)
-        0.5757006709160959  →  0.575700670916  (12 dp, preserves precision)
+    This is the 'copy method': loading with data_only=True gives us
+    cached formula results, and copying them to a fresh sheet ensures
+    we get clean, raw numeric values — no formulas, no artifacts.
     """
-    if val == 0:
-        return 0.0
-    abs_val = abs(val)
-    for dp in range(2, 16):
-        candidate = round(val, dp)
-        if candidate == 0 and abs_val > 1e-9:
-            continue
-        if abs(candidate - val) / max(abs_val, 1e-15) < 1e-9:
-            return candidate
-    return val
+    source_ws = wb.active
+    target_title = f'{source_ws.title}_Values'
+    target_ws = wb.create_sheet(title=target_title)
+
+    for row in source_ws.iter_rows():
+        for cell in row:
+            target_ws.cell(row=cell.row, column=cell.column, value=cell.value)
+
+    return target_ws
 
 
 def _get_cell_value(ws, row, col):
     """
     Read a cell value, returning None for empty/non-numeric cells.
-    Cleans IEEE 754 floating-point artifacts.
+    Formats to 15 significant digits (:.15g) to match Excel's formula bar
+    precision and strip IEEE 754 tail noise.
     """
     val = ws.cell(row=row, column=col).value
     if val is None:
         return None
     if isinstance(val, (int, float)):
-        return _clean_float(float(val))
+        return float(f'{float(val):.15g}')
     # Try to parse string representation
     try:
         cleaned = str(val).replace(',', '').strip()
         if cleaned == '' or cleaned == '-':
             return None
-        return _clean_float(float(cleaned))
+        return float(f'{float(cleaned):.15g}')
     except (ValueError, TypeError):
         return None
 
@@ -282,8 +269,11 @@ def extract(excel_path, year):
     logger.info(f'Extracting data from: {excel_path} (year {year})')
 
     wb = openpyxl.load_workbook(excel_path, data_only=True)
-    ws = wb.active
-    logger.info(f'Sheet: {ws.title}, {ws.max_row} rows x {ws.max_column} cols')
+
+    # Copy method: copy all values to a fresh sheet to get clean raw values
+    ws = _copy_values_sheet(wb)
+    logger.info(f'Sheet: {wb.active.title} -> {ws.title}, '
+                f'{ws.max_row} rows x {ws.max_column} cols')
 
     # Step 1: Dynamically find all fund type sections
     sections = _find_sections(ws)

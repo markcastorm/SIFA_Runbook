@@ -136,18 +136,22 @@ class FileGenerator:
 
     def update_master(self, new_data_dict):
         """
-        Merge new quarterly data into the master CSV.
+        Merge new quarterly data into the master CSV (cumulative).
 
         new_data_dict: dict mapping 'YYYY-QN' -> {simba_code: value, ...}
 
         Logic:
         - Load existing master (if it exists)
         - For each new quarter:
-          - If quarter doesn't exist in master: add it
+          - If quarter doesn't exist in master: append it
           - If quarter exists but has empty cells: fill them in
           - If quarter exists and has data: skip (don't overwrite)
         - Sort by quarter label
         - Save back
+
+        The master is cumulative — existing data is never overwritten or
+        deleted. Each run only adds new quarters or fills gaps in existing
+        ones.
         """
         master_path = config.MASTER_FILE
         self.logger.info(f'Updating master: {master_path}')
@@ -183,7 +187,7 @@ class FileGenerator:
                 else:
                     self.logger.info(f'{quarter_label}: already complete — skipped')
             else:
-                # New quarter — add row
+                # New quarter — append row
                 new_row = pd.Series(index=config.DATA_COLUMNS, dtype=object)
                 for col, val in row_values.items():
                     if col in new_row.index:
