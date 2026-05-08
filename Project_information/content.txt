@@ -1,0 +1,59 @@
+<div class="article-content" data-enhancer="mainBody">
+
+			<p>Scroll down for yearly and quarterly reports, and for Excel files with up-to-date statistics.&nbsp;</p>
+<p>The purpose of the report is to try to show how fund savings are distributed between different categories of savings (directly in funds, via ISK, insurance shells, etc.).<br>Please note that the distribution into categories is made based on the fund companies' reporting supplemented with information from distributors (which is possible<br>when the fund company and distributor are part of the same group). Under the category "Unallocated Nominee Accounts", fund savings are reported in cases where <br>fund companies sell funds via an external distributor (financial company where the fund company cannot see the underlying savings categories).</p>
+<h2 id="scope-of-the-survey"><strong>Scope of the survey</strong></h2>
+<p>The data is collected quarterly and includes funds marketed and sold in Sweden by fund management companies who are members of the Swedish Investment Fund Association. The statistics show fund sales in Sweden, while sales abroad are excluded. Both Sweden- and foreign-registered funds are included. Sjunde AP-fonden is included for premium pension savings. From 2006, all premium pension savings, including from fund management companies that are not members of the Association, is included. Reinvested dividends are not included in net savings, as of 2006. The data shows net savings and funds’ net assets, broken down by fund type and (savings) category.</p>
+<p>Discrepancies between the Association’s monthly and quarterly statistics are usually due to the fact that the monthly statistics have a slightly better coverage than the quarterly ones.&nbsp;</p>
+<p>The presentation is broken down into the following categories[1]:&nbsp;</p>
+<h3>Households’ direct savings</h3>
+<p>Direct savings in funds by private persons.</p>
+<h3>Fund savings in Investment Savings Accounts (ISK)</h3>
+<p>Private persons’ fund savings in Investment Savings Accounts[1], pursuant to the Swedish Investment Savings Accounts Act (2011:1268). (Reported separately as of 2014. Previously reported under Households’ direct savings.)</p>
+<h3>Individual Pension Savings (IPS)</h3>
+<p>Private persons’ individual pension savings, pursuant to the Swedish Individual Pension Savings Act (1993:931).</p>
+<h3>Unit-linked insurance</h3>
+<p>Swedish financial companies’ investments that are life assurance linked, pursuant to the Swedish&nbsp;Law on Life Assurance linked to funds of movable assets(1989:1079). The unit-linked insurance category includes private pension savings, occupational pension savings, and endowment insurance.&nbsp;&nbsp;&nbsp;</p>
+<h3>Premium pension savings</h3>
+<p>Private persons’ holdings of fund units for premium pensions, pursuant to the Swedish Income-based Old-Age Pension Act (1998:674).</p>
+<h3>Unallocated Nominee Accounts</h3>
+<p>This category includes savings where the fund units are registered with banks, securities companies and financial service companies. These are assumed to be nominee-registered[1]. (Reported separately as of 2014. Previously reported under Swedish corporations.)</p>
+<h3>Households’ non-profit organisations</h3>
+<p>Non-profit organisations that are not market producers and which serve the household sector in order to promote and protect households’ interests, or which engage in humanitarian activities. This includes political parties, employee and trade organisations, the Church of Sweden, free churches, and sporting associations.&nbsp;</p>
+<h3>Swedish corporations</h3>
+<p>This category includes both financial and non-financial companies. It also includes, amongst others, tenant-owner associations, co-operative economic associations, housing foundations, State-owned companies and public service companies. (Banks, securities companies, and financial service companies are reported under nominee-registered fund units, as of 2014.)&nbsp;</p>
+<h3>Other sectors</h3>
+<p>This category includes the social insurance sector, municipalities, county councils, stakeholder organisations, and other municipality-controlled institutions. It also includes Swedish holders who cannot be classified in one of the above-mentioned groupings, persons resident abroad or companies located abroad that have financial relationships with Sweden.&nbsp;&nbsp;</p>
+<p>[1] Please note that the split into categories is based on the fund companies' reporting supplemented with information from distributors (which is possible when the fund company and distributor are part of the same group). Under the category "Unallocated nominee accounts", fund savings are reported in cases where the fund company sells funds via an external distributor (financial company where the fund company cannot see the underlying savings categories). &nbsp;</p>
+<h2 id="statistics-showing-fund-savings-and-net-assets-of-funds-by-category">Statistics showing fund savings and net assets of funds by category&nbsp;&nbsp;&nbsp;<strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></h2>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2026.xlsx">Fund saving by category 2026</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2000-2025.xlsx">Fund savings by category 2000-2025</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2025.xlsx">Fund saving by category 2025</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2024.xlsx">Fund saving by category 2024</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2023.xlsx">Fund saving by category 2023</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2022.xlsx">Fund saving by category 2022</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2021.xlsx">Fund saving by category 2021</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2020.xlsx" target="_blank" rel="noopener">Fund saving by category 2020</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/categories-2019.xlsx" target="_blank" rel="noopener">Fund savings by category 2019</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2018.xlsx" target="_blank" rel="noopener">Fund savings by category 2018</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2017.xlsx">Fund savings by category 2017</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2016.xlsx">Fund savings by category 2016</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2015.xlsx">Fund savings by category 2015</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2014.xlsx">Fund savings by category 2014</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2013.xls">Fund savings by category 2013</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2012.xls">Fund savings by category 2012</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2011.xls">Fund savings by category 2011</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2010.xls">Fund savings by category 2010&nbsp;</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2009.xls">Fund savings by category 2009</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2008.xls">Fund savings by category 2008</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2007.xls">Fund savings by category 2007</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2006.xls">Fund savings by category 2006</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2005.xls">Fund savings by category 2005</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2004.xls">Fund savings by category 2004</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2003.xls">Fund savings by category 2003</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2002.xls">Fund savings by category 2002</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2001.xls">Fund savings by category 2001</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2000.xls">Fund savings by category 2000</a></p>
+
+
+		</div>

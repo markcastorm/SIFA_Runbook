@@ -1,0 +1,695 @@
+<html lang="en" style="" class=" geolocation localstorage cssall csspointerevents cssgradients rgba cssremunit inlinesvg no-touchevents cssvwunit cssvhunit textshadow backgroundsize boxshadow csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox csstransforms csstransitions"><head>
+	
+
+	
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Fund savings by category (quarterly statistics) - Swedish Investment Fund Association</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="theme-color" content="#fdfbf7">
+
+
+
+
+
+            <meta name="title" content="Fund savings by category (quarterly statistics) - Swedish Investment Fund Association">
+
+            <meta name="description" content="The Swedish Investment Fund Association publishes quarterly statistics on new savings and net assets of funds, broken down by savings category. These statistics are published approximately one month after the end of each quarter.">
+
+
+
+            <meta name="last-modified" content="2019-03-12T13:24:05">
+
+            <meta property="og:title" content="Fund savings by category (quarterly statistics)">
+
+            <meta property="og:site_name" content="Swedish Investment Fund Association">
+
+            <meta property="og:description" content="The Swedish Investment Fund Association publishes quarterly statistics on new savings and net assets of funds, broken down by savings category. These statistics are published approximately one month after the end of each quarter.">
+
+            <meta property="og:type" content="article">
+
+            <meta property="og:url" content="https://www.fondbolagen.se/en/Facts_Indices/fund-savings-by-category-quarterly-statistics/">
+
+
+            <meta name="twitter:card" content="summary">
+
+            <meta name="twitter:url" content="https://www.fondbolagen.se/en/Facts_Indices/fund-savings-by-category-quarterly-statistics/">
+
+            <meta name="twitter:title" content="Fund savings by category (quarterly statistics) - Swedish Investment Fund Association">
+
+            <meta name="twitter:description" content="The Swedish Investment Fund Association publishes quarterly statistics on new savings and net assets of funds, broken down by savings category. These statistics are published approximately one month after the end of each quarter.">
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700" rel="stylesheet">
+<link rel="stylesheet" href="/Static/bundles/styles/main.css?v=134014406247943853">
+<script src="/Static/bundles/scripts/header.js?v=134014406246836853"></script>
+	
+    
+    
+
+
+	
+    
+    
+
+
+</head>
+<body data-new-gr-c-s-check-loaded="14.1289.0" data-gr-ext-installed="">
+<a href="#main-content" class="sr-only sr-only-focusable skip-to-content">Hoppa till huvudinnehåll</a>
+
+<div id="off-canvas-container">
+    
+    <div class="inner-wrap">
+        
+
+
+
+
+    <div class="six-index-content">
+
+        <div class="text-center six-container">
+
+            <ul class="six-index-list px-1 m-auto">
+                <li class="d-none d-sm-inline">
+                    <span class="six-index-title">YTD</span>
+                    <span class="six-index-title six-index-year d-none d-md-inline">2026-05-07 </span>
+                </li>
+
+                        <li>
+            <a href="/en/Facts_Indices/indices/six-index/sixgx/">
+                SIXGX
+                <span class="six-index-value">+4.53 %</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -4.5 24 24" fill="none" preserveAspectRatio="xMinYMin" class="jam jam-arrow-up"><path d="M6 4.071l-3.95 3.95A1 1 0 0 1 .636 6.607L6.293.95a.997.997 0 0 1 1.414 0l5.657 5.657A1 1 0 0 1 11.95 8.02L8 4.07v9.586a1 1 0 1 1-2 0V4.07z"></path></svg>
+
+            </a>
+        </li>
+
+
+                        <li>
+            <a href="/en/Facts_Indices/indices/six-index/sixrx/">
+                SIXRX
+                <span class="six-index-value">+6.16 %</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -4.5 24 24" fill="none" preserveAspectRatio="xMinYMin" class="jam jam-arrow-up"><path d="M6 4.071l-3.95 3.95A1 1 0 0 1 .636 6.607L6.293.95a.997.997 0 0 1 1.414 0l5.657 5.657A1 1 0 0 1 11.95 8.02L8 4.07v9.586a1 1 0 1 1-2 0V4.07z"></path></svg>
+
+            </a>
+        </li>
+
+
+                        <li>
+            <a href="/en/Facts_Indices/indices/six-index/sixpx/">
+                SIXPX
+                <span class="six-index-value">+4.53 %</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -4.5 24 24" fill="none" preserveAspectRatio="xMinYMin" class="jam jam-arrow-up"><path d="M6 4.071l-3.95 3.95A1 1 0 0 1 .636 6.607L6.293.95a.997.997 0 0 1 1.414 0l5.657 5.657A1 1 0 0 1 11.95 8.02L8 4.07v9.586a1 1 0 1 1-2 0V4.07z"></path></svg>
+
+            </a>
+        </li>
+
+
+                        <li>
+            <a href="/en/Facts_Indices/indices/six-index/sixprx/">
+                SIXPRX
+                <span class="six-index-value">+6.17 %</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -4.5 24 24" fill="none" preserveAspectRatio="xMinYMin" class="jam jam-arrow-up"><path d="M6 4.071l-3.95 3.95A1 1 0 0 1 .636 6.607L6.293.95a.997.997 0 0 1 1.414 0l5.657 5.657A1 1 0 0 1 11.95 8.02L8 4.07v9.586a1 1 0 1 1-2 0V4.07z"></path></svg>
+
+            </a>
+        </li>
+
+
+            </ul>
+        </div>
+    </div>
+
+        
+    <header id="main-header" class="main-header">
+        <nav class="global-header d-none d-xl-block ">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <a href="/en/" title="Till startsidan" class="global-header-logo">
+                        <img src="/Static/Images/logo.png" alt="Swedish Investment Fund Association" class="img-fluid">
+                    </a>
+
+                    
+
+<ul class="list-inline global-header-nav-list">
+    
+        <li data-page-id="16" class="has-children">
+
+            <a href="/en/about-us/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/om-oss.png" alt="">
+                </span>
+
+                <span>About us</span> 
+
+            </a>
+
+        </li>
+        <li data-page-id="52" class="active has-children">
+
+            <a href="/en/Facts_Indices/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/statistik.png" alt="">
+                </span>
+
+                <span>Facts &amp; Figures/Index</span> 
+
+                    <span class="sr-only">(Aktuell sida)</span>
+            </a>
+
+        </li>
+        <li data-page-id="59" class="has-children">
+
+            <a href="/en/regulations/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/regelverk.png" alt="">
+                </span>
+
+                <span>Regulations</span> 
+
+            </a>
+
+        </li>
+</ul>
+
+
+
+                    <div>
+                            <ul class="global-header-function-menu">
+
+                                
+
+
+
+<li class="langselect">
+    <a class="icon-text" href="/fakta_index/Fondsparande-efter-kategori/" title="">
+        På Svenska
+    </a>
+</li>
+
+
+                                    <li>
+                                        <a href="/en/about-us/contacts/">
+                                            Contact us
+                                        </a>
+                                    </li>
+                            </ul>
+
+                            <a href="tel:46(0)850698800" class="global-header-contact-link">
+                                <span>Tel:</span>
+                                <span class="number">46 (0)8 506 988 00</span>
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+<div class="navbar navbar-default mobile-navbar d-xl-none global-header">
+    <div id="mobile-navbar-container" class="container-fluid d-flex justify-content-between align-items-center collapse in">
+
+        <button data-toggle="menu" data-menuside="left" data-target="#mobile-nav" class="btn btn-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="menu-icon">
+                <path d="M1 0h5a1 1 0 1 1 0 2H1a1 1 0 1 1 0-2zm7 8h5a1 1 0 0 1 0 2H8a1 1 0 1 1 0-2zM1 4h12a1 1 0 0 1 0 2H1a1 1 0 1 1 0-2z"></path>
+            </svg>
+            <span>Meny</span>
+        </button>
+
+       
+        <a href="/en/" title="Till startsidan" class="mobile-navbar-title text-center">
+            <img src="/Static/Images/logoclean.png" alt="Swedish Investment Fund Association" class="img-fluid">
+        </a>
+
+
+        <a href="" class="btn btn-primary">
+            
+        </a>
+    </div>
+</div>
+        
+
+
+
+<main id="main-content" class="container main-content">
+    
+
+
+
+
+
+
+
+<div class="row row justify-content-lg-center">
+
+		<div class="col-md-4 d-none d-lg-block">
+			
+    
+
+
+
+
+
+    <nav id="side-nav " class="side-nav m-xs-b-large" aria-labelledby="side-nav-heading">
+
+        <h2 id="side-nav-heading" class="sr-only">Navigering fÃ¶r Fakta/Index</h2>
+
+        <ul class="nav nav-tree mt-4" data-enhancer="navTree">
+            <li class="active tree-top">
+                <a class="section-name h2" href="/en/Facts_Indices/">
+                    Fakta/Index
+                </a>
+                <ul class="nav w-100 d-block ancestor first mt-2">
+                        <li class=" " data-page-id="55">
+
+     <a class="" href="/en/Facts_Indices/new-savings-and-assets-under-management-monthly-statistics/">
+        New savings and net assets of funds (monthly statistics)
+    </a>
+    </li>
+    <li class=" " data-page-id="3057">
+
+     <a class="" href="/en/Facts_Indices/fund-savings-by-sustainability-classification-quarterly/">
+        Fund savings by sustainability declaration (quarterly)
+    </a>
+    </li>
+    <li class=" current " data-page-id="25">
+
+     <a class="current" href="/en/Facts_Indices/fund-savings-by-category-quarterly-statistics/">
+        Fund savings by category (quarterly statistics)
+            <span class="sr-only">(Aktuell sida)</span>
+    </a>
+    </li>
+    <li class=" " data-page-id="147">
+
+     <a class="" href="/en/Facts_Indices/the-swedish-fund-market-today/">
+        The contemporary Swedish fund market
+    </a>
+    </li>
+    <li class=" " data-page-id="1285">
+
+     <a class="" href="/en/Facts_Indices/sustainable-funds/">
+        Sustainable funds
+    </a>
+    </li>
+    <li class=" " data-page-id="148">
+
+     <a class="" href="/en/Facts_Indices/sweden-a-world-champion-in-fund-savings/">
+        How Sweden became a world leader in fund saving
+    </a>
+    </li>
+    <li class=" " data-page-id="4083">
+
+     <a class="" href="/en/Facts_Indices/isk/">
+        ISK - investment savings account
+    </a>
+    </li>
+    <li class=" " data-page-id="4436">
+
+     <a class="" href="/en/Facts_Indices/fund-savings-in-sweden-and-europe/">
+        Fund savings in Sweden and Europe
+    </a>
+    </li>
+    <li class=" " data-page-id="516">
+
+     <a class="" href="/en/Facts_Indices/indices/">
+        Market index
+    </a>
+    <button class="nav-expander btn-clean">
+
+        <span aria-hidden="true" class="fa fa-plus"></span>
+        <span class="sr-only">minimera</span>
+    </button>
+    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+		</div>
+
+	<div class="col-md-10 col-lg-8">
+
+
+		
+
+<nav>
+    <ol class="breadcrumb small list-unstyled mt-4" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+        <a href="/en/" itemprop="item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-left"><path d="M3.414 7.657l3.95 3.95A1 1 0 0 1 5.95 13.02L.293 7.364a.997.997 0 0 1 0-1.414L5.95.293a1 1 0 1 1 1.414 1.414l-3.95 3.95H13a1 1 0 0 1 0 2H3.414z"></path></svg>
+
+            <span itemprop="name">Home</span>
+            <meta itemprop="position" content="1">
+        </a>
+    </li>
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="/en/Facts_Indices/" itemprop="item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-left"><path d="M3.414 7.657l3.95 3.95A1 1 0 0 1 5.95 13.02L.293 7.364a.997.997 0 0 1 0-1.414L5.95.293a1 1 0 1 1 1.414 1.414l-3.95 3.95H13a1 1 0 0 1 0 2H3.414z"></path></svg>
+                <span itemprop="name">Facts &amp; Figures/Index</span>
+                <meta itemprop="position" content="2">
+            </a>
+    </li>
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <span itemprop="name">Fund savings by category (quarterly statistics)</span>
+                <meta itemprop="position" content="3">
+    </li>
+
+    </ol>
+</nav>
+
+		
+
+		<h1>
+			Fund savings by category (quarterly statistics)
+		</h1>
+
+
+
+		<p class="lead">
+			The Swedish Investment Fund Association publishes quarterly statistics on new savings and net assets of funds, broken down by savings category. These statistics are published approximately one month after the end of each quarter.
+		</p>
+
+		<div><div class="block  personpage"><a href="/en/about-us/contacts/fredrik-pettersson/" class="media mb-3">
+
+        
+        <img src="/contentassets/e9b2cd9cc57c47b0a79be8e855f4669a/fredrik_pettersson2024.jpg?preset=squaresmall" alt="Fredrik Pettersson" class="mr-3 rounded-circle align-self-center">
+
+
+        <div class="media-body align-self-center">
+            <h2 class="mt-0 mb-0 h6">Fredrik Pettersson</h2>
+            Chief Analyst, Deputy Managing Director
+        </div>
+
+</a></div></div>
+
+
+
+			<nav id="tocmobile" class="table-of-contents" data-toggle="toc"><ul class="nav navbar-nav"><li><a class="nav-link" href="#scope-of-the-survey">Scope of the survey</a></li><li><a class="nav-link" href="#statistics-showing-fund-savings-and-net-assets-of-funds-by-category">Statistics showing fund savings and net assets of funds by category&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a></li></ul></nav>
+
+
+
+
+		<div class="article-content" data-enhancer="mainBody">
+
+			<p>Scroll down for yearly and quarterly reports, and for Excel files with up-to-date statistics.&nbsp;</p>
+<p>The purpose of the report is to try to show how fund savings are distributed between different categories of savings (directly in funds, via ISK, insurance shells, etc.).<br>Please note that the distribution into categories is made based on the fund companies' reporting supplemented with information from distributors (which is possible<br>when the fund company and distributor are part of the same group). Under the category "Unallocated Nominee Accounts", fund savings are reported in cases where <br>fund companies sell funds via an external distributor (financial company where the fund company cannot see the underlying savings categories).</p>
+<h2 id="scope-of-the-survey"><strong>Scope of the survey</strong></h2>
+<p>The data is collected quarterly and includes funds marketed and sold in Sweden by fund management companies who are members of the Swedish Investment Fund Association. The statistics show fund sales in Sweden, while sales abroad are excluded. Both Sweden- and foreign-registered funds are included. Sjunde AP-fonden is included for premium pension savings. From 2006, all premium pension savings, including from fund management companies that are not members of the Association, is included. Reinvested dividends are not included in net savings, as of 2006. The data shows net savings and funds’ net assets, broken down by fund type and (savings) category.</p>
+<p>Discrepancies between the Association’s monthly and quarterly statistics are usually due to the fact that the monthly statistics have a slightly better coverage than the quarterly ones.&nbsp;</p>
+<p>The presentation is broken down into the following categories[1]:&nbsp;</p>
+<h3>Households’ direct savings</h3>
+<p>Direct savings in funds by private persons.</p>
+<h3>Fund savings in Investment Savings Accounts (ISK)</h3>
+<p>Private persons’ fund savings in Investment Savings Accounts[1], pursuant to the Swedish Investment Savings Accounts Act (2011:1268). (Reported separately as of 2014. Previously reported under Households’ direct savings.)</p>
+<h3>Individual Pension Savings (IPS)</h3>
+<p>Private persons’ individual pension savings, pursuant to the Swedish Individual Pension Savings Act (1993:931).</p>
+<h3>Unit-linked insurance</h3>
+<p>Swedish financial companies’ investments that are life assurance linked, pursuant to the Swedish&nbsp;Law on Life Assurance linked to funds of movable assets(1989:1079). The unit-linked insurance category includes private pension savings, occupational pension savings, and endowment insurance.&nbsp;&nbsp;&nbsp;</p>
+<h3>Premium pension savings</h3>
+<p>Private persons’ holdings of fund units for premium pensions, pursuant to the Swedish Income-based Old-Age Pension Act (1998:674).</p>
+<h3>Unallocated Nominee Accounts</h3>
+<p>This category includes savings where the fund units are registered with banks, securities companies and financial service companies. These are assumed to be nominee-registered[1]. (Reported separately as of 2014. Previously reported under Swedish corporations.)</p>
+<h3>Households’ non-profit organisations</h3>
+<p>Non-profit organisations that are not market producers and which serve the household sector in order to promote and protect households’ interests, or which engage in humanitarian activities. This includes political parties, employee and trade organisations, the Church of Sweden, free churches, and sporting associations.&nbsp;</p>
+<h3>Swedish corporations</h3>
+<p>This category includes both financial and non-financial companies. It also includes, amongst others, tenant-owner associations, co-operative economic associations, housing foundations, State-owned companies and public service companies. (Banks, securities companies, and financial service companies are reported under nominee-registered fund units, as of 2014.)&nbsp;</p>
+<h3>Other sectors</h3>
+<p>This category includes the social insurance sector, municipalities, county councils, stakeholder organisations, and other municipality-controlled institutions. It also includes Swedish holders who cannot be classified in one of the above-mentioned groupings, persons resident abroad or companies located abroad that have financial relationships with Sweden.&nbsp;&nbsp;</p>
+<p>[1] Please note that the split into categories is based on the fund companies' reporting supplemented with information from distributors (which is possible when the fund company and distributor are part of the same group). Under the category "Unallocated nominee accounts", fund savings are reported in cases where the fund company sells funds via an external distributor (financial company where the fund company cannot see the underlying savings categories). &nbsp;</p>
+<h2 id="statistics-showing-fund-savings-and-net-assets-of-funds-by-category">Statistics showing fund savings and net assets of funds by category&nbsp;&nbsp;&nbsp;<strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong></h2>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2026.xlsx">Fund saving by category 2026</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2000-2025.xlsx">Fund savings by category 2000-2025</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2025.xlsx">Fund saving by category 2025</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2024.xlsx">Fund saving by category 2024</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2023.xlsx">Fund saving by category 2023</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2022.xlsx">Fund saving by category 2022</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2021.xlsx">Fund saving by category 2021</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2020.xlsx" target="_blank" rel="noopener">Fund saving by category 2020</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/categories-2019.xlsx" target="_blank" rel="noopener">Fund savings by category 2019</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2018.xlsx" target="_blank" rel="noopener">Fund savings by category 2018</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2017.xlsx">Fund savings by category 2017</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2016.xlsx">Fund savings by category 2016</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2015.xlsx">Fund savings by category 2015</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2014.xlsx">Fund savings by category 2014</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2013.xls">Fund savings by category 2013</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2012.xls">Fund savings by category 2012</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2011.xls">Fund savings by category 2011</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2010.xls">Fund savings by category 2010&nbsp;</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2009.xls">Fund savings by category 2009</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2008.xls">Fund savings by category 2008</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2007.xls">Fund savings by category 2007</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2006.xls">Fund savings by category 2006</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2005.xls">Fund savings by category 2005</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2004.xls">Fund savings by category 2004</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2003.xls">Fund savings by category 2003</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2002.xls">Fund savings by category 2002</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-saving-by-category-2001.xls">Fund savings by category 2001</a></p>
+<p><a href="/globalassets/factsindices-eng/fund-savings-by-category/fund-savings-by-category-2000.xls">Fund savings by category 2000</a></p>
+
+
+		</div>
+
+
+		
+
+
+		
+
+
+		
+
+
+
+
+
+    
+    <footer class="article-footer d-flex align-items-center">
+
+        <span class="small font-weight-bold mr-2">
+            
+        Share page
+      
+        </span>
+
+            <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.fondbolagen.se%2Fen%2FFacts_Indices%2Ffund-savings-by-category-quarterly-statistics%2F" class="mr-2 btn btn-share btn-primary btn-share-facebook">
+
+        <span class="fa fa-facebook fa-lg"></span> <span class="sr-only">Dela sidan på Facebook</span>
+    </a>
+    <a href="http://twitter.com/share?text=Fund savings by category (quarterly statistics)&amp;url=https%3A%2F%2Fwww.fondbolagen.se%2Fen%2FFacts_Indices%2Ffund-savings-by-category-quarterly-statistics%2F" class="mr-2 btn btn-share btn-primary btn-share-twitter">
+
+        <span class="fa fa-twitter fa-lg"></span> <span class="sr-only">Dela sidan på Twitter</span>
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fwww.fondbolagen.se%2Fen%2FFacts_Indices%2Ffund-savings-by-category-quarterly-statistics%2F" class="mr-2 btn btn-share btn-primary btn-share-linkedin">
+
+        <span class="fa fa-linkedin fa-lg"></span> <span class="sr-only">Dela sidan på Linkedin</span>
+    </a>
+
+            </div>
+
+    </footer>
+		
+	</div>
+
+    <div class="col-lg-2">
+            <div class="toc-container">
+                <nav id="toc" class="table-of-contents" data-toggle="toc"><ul class="nav navbar-nav"><li><a class="nav-link" href="#scope-of-the-survey">Scope of the survey</a></li><li><a class="nav-link" href="#statistics-showing-fund-savings-and-net-assets-of-funds-by-category">Statistics showing fund savings and net assets of funds by category&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a></li></ul></nav>
+            </div>
+    </div>
+
+
+</div>
+
+
+</main>
+
+        
+        <footer id="global-footer" class="global-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <a href="/" class="global-footer-logo">
+                            <img src="/Static/Images/logoclean.png" alt="Fondbolagens förening" class="img-fluid">
+                        </a>
+
+                            <ul class="global-footer-navigation list-inline">
+                                    <li>
+                                        <a href="/en/about-us/">
+                                            About us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/en/about-us/the-personal-data-policy-of-the-swedish-investment-fund-association/">
+                                            GDPR
+                                        </a>
+                                    </li>
+                            </ul>
+
+
+                        <ul class="global-footer-social-media list-inline">
+                                <li>
+                                    <a href="https://www.facebook.com/Fondkollen">
+                                        <svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2.014 3.865V6.613H1.51992e-09V9.973H2.014V19.959H6.148V9.974H8.923C8.923 9.974 9.183 8.363 9.309 6.601H6.165V4.303C6.165 3.96 6.615 3.498 7.061 3.498H9.315V0H6.251C1.911 0 2.014 3.363 2.014 3.865V3.865Z" fill="#68726A"></path>
+                                        </svg>
+                                        <span class="sr-only">Facebook</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.linkedin.com/company/fondbolagens-f-rening-the-swedish-investment-fund-association/">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19.959 11.693V19.072H15.681V12.187C15.681 10.457 15.062 9.277 13.514 9.277C12.332 9.277 11.628 10.073 11.319 10.842C11.206 11.117 11.177 11.5 11.177 11.885V19.072H6.897C6.897 19.072 6.955 7.412 6.897 6.203H11.177V8.027L11.149 8.069H11.177V8.027C11.745 7.152 12.76 5.901 15.033 5.901C17.848 5.901 19.959 7.741 19.959 11.693V11.693ZM2.421 5.36442e-10C0.958 5.36442e-10 0 0.96 0 2.223C0 3.458 0.93 4.447 2.365 4.447H2.393C3.886 4.447 4.813 3.458 4.813 2.223C4.787 0.96 3.887 5.36442e-10 2.422 5.36442e-10H2.421ZM0.254 19.072H4.532V6.203H0.254V19.072Z" fill="#68726A"></path>
+                                        </svg>
+                                        <span class="sr-only">LinkedIn</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://twitter.com/fondbolagen">
+                                        <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 1.89203C19.2504 2.2194 18.4565 2.43406 17.644 2.52903C18.4968 2.02826 19.138 1.23413 19.448 0.295027C18.64 0.765355 17.7587 1.09663 16.841 1.27503C16.4545 0.870233 15.9897 0.548415 15.4748 0.329206C14.9598 0.109996 14.4056 -0.00200735 13.846 2.7229e-05C11.58 2.7229e-05 9.743 1.81003 9.743 4.04003C9.743 4.35603 9.779 4.66503 9.849 4.96003C8.22358 4.88272 6.63212 4.46744 5.17617 3.74067C3.72022 3.0139 2.43176 1.99161 1.393 0.739027C1.02883 1.35343 0.837415 2.05481 0.839 2.76903C0.839 4.17203 1.563 5.40903 2.663 6.13203C2.01248 6.11103 1.37602 5.93735 0.805 5.62503V5.67503C0.805 7.63303 2.22 9.26603 4.095 9.63803C3.74261 9.73153 3.37958 9.77892 3.015 9.77903C2.75 9.77903 2.493 9.75403 2.242 9.70403C2.51008 10.512 3.02311 11.2163 3.70982 11.7194C4.39653 12.2224 5.22284 12.4991 6.074 12.511C4.61407 13.6356 2.82182 14.2431 0.979 14.238C0.647 14.238 0.321 14.218 0 14.182C1.88125 15.3727 4.06259 16.0033 6.289 16C13.836 16 17.962 9.84303 17.962 4.50403L17.948 3.98103C18.7529 3.4147 19.4481 2.70687 20 1.89203V1.89203Z" fill="#68726A"></path>
+                                        </svg>
+                                        <span class="sr-only">Twitter</span>
+                                    </a>
+                                </li>
+                        </ul>
+                    </div>
+                    <div class="col-xl-4">
+                        <a href="" class="global-footer-image d-flex align-items-center h-100">
+                            
+                            <img src="/Static/Images/fondkollen.png" alt="Fondkollen">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+        
+
+
+
+<nav id="mobile-nav" data-off-canvas-menu="true" aria-hidden="false" class="mobile-nav off-canvas-menu off-canvas-left open" tabindex="-1">
+    <div class="off-canvas-content">
+
+
+
+        
+
+<ul class="list-inline global-header-nav-list">
+    
+        <li data-page-id="16" class="has-children">
+
+            <a href="/en/about-us/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/om-oss.png" alt="">
+                </span>
+
+                <span>About us</span> 
+
+            </a>
+
+        </li>
+        <li data-page-id="52" class="active has-children">
+
+            <a href="/en/Facts_Indices/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/statistik.png" alt="">
+                </span>
+
+                <span>Facts &amp; Figures/Index</span> 
+
+                    <span class="sr-only">(Aktuell sida)</span>
+            </a>
+
+        </li>
+        <li data-page-id="59" class="has-children">
+
+            <a href="/en/regulations/">
+
+                <span class="global-header-icon">
+                    <img src="https://www.fondbolagen.se/globalassets/regelverk.png" alt="">
+                </span>
+
+                <span>Regulations</span> 
+
+            </a>
+
+        </li>
+</ul>
+
+
+
+        <ul class="list-unstyled mobile-navigation-list-small">
+            
+
+
+
+<li class="langselect">
+    <a class="icon-text" href="/fakta_index/Fondsparande-efter-kategori/" title="">
+        På Svenska
+    </a>
+</li>
+
+
+                <li>
+
+                    <a href="/en/about-us/contacts/">
+                        Contact us
+                    </a>
+                </li>
+        </ul>
+    </div>
+</nav>
+
+        <div class="off-canvas-backdrop" aria-label="StÃ¤ng meny" role="button"></div>
+    </div>
+
+    
+<script src="/Static/bundles/scripts/footer.js?v=134014406246203157"></script>
+
+    <script type="application/ld+json">
+        {
+        "@context" : "http://schema.org",
+        "@type" : "WebSite",
+        "name" : "Swedish Investment Fund Association",
+        "alternateName" : "Swedish Investment Fund Association",
+        "url" : "https://www.fondbolagen.se/"
+        }
+    </script>
+
+
+
+    
+    
+    
+
+
+    
+    <script>
+        function showTab(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+        }
+    </script>
+</div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

@@ -1,0 +1,41 @@
+Follow the SIMBA pipeline architecture documented in:
+
+((C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\scraper.py)
+()
+(C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\orchestrator.py)
+(C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\main.py)
+(C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\file_generator.py)
+(C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\extractor.py)
+(C:\Users\Mark Castro\Documents\SHFEMVD Runbook\SHFEMVD-Runbook\config.py) 
+even this (C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\config.py)
+(C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\extractor.py)
+(C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\file_generator.py)
+(C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\main.py)
+(C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\orchestrator.py)
+(C:\Users\Mark Castro\Documents\SGXWFFD_Runbook\scraper.py)
+analyze this use similar architecture  dont waste tokens be efficient as possible and fast  use scripts to reed excell file  and doxc files  dont waste tokens  ineed accuracy sice its finacial data
+
+
+Same structure: config.py, scraper.py, extractor.py, file_generator.py, orchestrator.py, main.py
+Same output: DATA .xls, META .xls, ZIP, master CSV update, timestamped + latest folders
+Same environment: Windows dev, Docker Linux production, all packages pre-installed, os.path.join() everywhere
+
+now weare getting started on a new runnbook(D:\C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\SIFA_Runbook.docx) its a docx file
+Here is the csv version(C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\SIFA_DATA_20250212 - DATA.csv) and the xlsx (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\SIFA_DATA_20250212.xlsx) of the manual data
+META you can figure that out from the other runbook 
+analyze them first before we started 
+thistime we will  have the config.py  add the necessary collumns mapinng since the sub headers and headers in the manual data will be exactly the way they are to every output and in the exact arrangemen  since they are absolute unless other wise
+remember they are absolute so store them in the config .py
+(C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\SIFA_DATA_20250212 - DATA.csv)  analyze these files verry keenly they are verry important  lets get started
+
+lets first start with the scraper.py 
+we need to  visit this link using selenium stealth ensure we mimic human clicks   and winreg too ensure it works for linux too other wise if it cant dont use it also ensure also works for headles true too
+lets visit this link
+(https://www.fondbolagen.se/en/Facts_Indices/fund-savings-by-category-quarterly-statistics/)
+heads up this site is extreamly dynamic so lets wat that we need to also apply approrpiete headers and extreame stealth brign your best to the table 
+so when the site loads looks like this (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\image1.png)
+here is the samplehtml (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\sample.txt)
+so after loading the site we scroll down dynamicaly to the content section (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\content.txt)
+you will see abunch of report links you will i dentify thenm dynamicaly  download the specified report based on the cofig  setings if none we pick the latast yoear data based on the last quater valu on the master (C:\Users\Mark Castro\Documents\SIFA_Runbook\Master_Data\Master_SIFA_DATA.csv)  or i can set a range  like right now my master is at  2024-Q3 if i set to none it will download the 2024 data because q4 is missing  2025 data and 2026  data  then fill the remaining  or missing outputs in the master  arcordingly the file we will be trigerd to download is a excell file like this (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\fund-saving-by-category-2024.xlsx)and this (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\fund-saving-by-category-2023.xlsx) saved in the downloads folder with time stamped subfolders for every run and sub-sub folders for individual years  if am downloading alots of years  now the extractor will analyze the exel files dynamicaly without hard coding to adentify the arrangment of headers and lables i dentify the mapping  befor starting to extract the data we also need it to be context awware in case the structure changes then it can adowp easily  (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\image2.png) remember the values are arranged by quater and columnmappings also the calues inn the cells are created by formulata as you see here (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\image3.png) 
+ussualy i copy the valu  then i paste in a nother cell in the excel  special as values it will give me the full value it gives me the full value with all the decimals since it finacial data rounding of is not an option ineed the full valu to be dy maicaly movet to the master as is without hardcording  to the corresponding subheaders and headers then the you can see an exaple i have heglihted in yellow and green when the value is pasted and a value (C:\Users\Mark Castro\Documents\SIFA_Runbook\Project_information\image4.png)
+  after tupdating the master we duplicate it save it as the new data saved in the output folder with timestamped subfolder for every run and latest folder always holding the latest files in every run  as xls file  so we will have data,meta and zipfile   as siple asthat  you can impliment workers if the files ar many ensure accuracy is key analyze the sample data and the output files dynamicaly identify the mapping before creating the scripts happy codding 
