@@ -13,6 +13,11 @@ Edit only tolerances and display settings below.
 # Tolerance for floating point comparison
 FLOAT_TOLERANCE = 0.001
 
+# Threshold to separate decimal mismatches from full mismatches
+# abs(diff) <= threshold  ->  decimal mismatch (rounding)
+# abs(diff) >  threshold  ->  full mismatch (wrong value)
+DECIMAL_MISMATCH_THRESHOLD = 1.0
+
 # =================================================================
 # DISPLAY SETTINGS
 # =================================================================
@@ -27,16 +32,9 @@ MAX_CONSOLE_EXAMPLES = 5
 # REPORT FILENAMES
 # =================================================================
 
-REPORT_MISMATCHES  = 'report_mismatches.csv'
-REPORT_MISSING     = 'report_missing.csv'
-REPORT_NEW_VALUES  = 'report_new_values.csv'
-SUMMARY_FILENAME   = 'comparison_summary.txt'
+REPORT_MISMATCHES_FULL    = 'report_mismatches_full.csv'
+REPORT_MISMATCHES_DECIMAL = 'report_mismatches_decimal.csv'
+REPORT_MISSING            = 'report_missing.csv'
+REPORT_NEW_VALUES         = 'report_new_values.csv'
+SUMMARY_FILENAME          = 'comparison_summary.txt'
 
-# =================================================================
-# FILES SUBFOLDER NAMES
-# =================================================================
-
-FILES_DIR            = 'files'
-MISMATCH_FILES_DIR   = 'mismatch'
-MISSING_FILES_DIR    = 'missing'
-NEW_VALUES_FILES_DIR = 'new_values'

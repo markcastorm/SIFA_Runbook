@@ -4,19 +4,21 @@ SIFA Comparison Tool
 Dynamic path discovery - no manual path entry needed.
 
 What it auto-discovers:
-  - Pipeline output:    Latest run in ../output/latest/  (SIFA_DATA_latest.xlsx)
+  - Pipeline output:    Latest run in ../output/latest/  (SIFA_DATA.csv)
   - Source downloads:   Downloaded Excel files in ../downloads/  (for verification)
   - Reference file:     Any .xlsx/.csv dropped into ./reference_input/
 
-Three separate CSV reports:
-    report_mismatches.csv  -- value conflicts (both files have different data)
-    report_missing.csv     -- in reference but absent from pipeline
-    report_new_values.csv  -- in pipeline but absent from reference
+Four separate CSV reports:
+    report_mismatches_full.csv     -- large value conflicts (wrong mapping / value)
+    report_mismatches_decimal.csv  -- small rounding differences
+    report_missing.csv             -- in reference but absent from pipeline
+    report_new_values.csv          -- in pipeline but absent from reference
 
-  files/ subfolder with category sub-directories:
-    files/mismatch/    -- source Excel files linked to mismatch rows
-    files/missing/     -- source Excel files linked to missing rows
-    files/new_values/  -- source Excel files linked to new-value rows
+Annotated Excel (if xlsx inputs):
+    Red    = full mismatch
+    Orange = decimal mismatch
+    Yellow = missing
+    Green  = new value
 
 Usage:
   1. Drop your reference .xlsx/.csv into the  reference_input/  folder
@@ -32,12 +34,9 @@ import csv
 import os
 import sys
 import glob
-import shutil
 import re
 from datetime import datetime
 from collections import defaultdict
-
-import pandas as pd
 
 import config_compare as config
 
@@ -91,16 +90,13 @@ def find_source_downloads(project_root):
 
     source_map = {}
 
-    # Walk through all subdirectories to find Excel files
     for root, dirs, files in os.walk(download_root):
         for f in files:
             if f.endswith(('.xlsx', '.xls')) and not f.startswith('~$'):
-                # Try to extract year from path or filename
                 year_match = re.search(r'\b(20\d{2})\b', os.path.join(root, f))
                 if year_match:
                     year = int(year_match.group(1))
                     filepath = os.path.join(root, f)
-                    # Keep the most recent file for each year
                     if year not in source_map or os.path.getmtime(filepath) > os.path.getmtime(source_map[year]):
                         source_map[year] = filepath
 
@@ -112,7 +108,6 @@ def find_reference_file(compare_dir):
     ref_dir = os.path.join(compare_dir, 'reference_input')
     os.makedirs(ref_dir, exist_ok=True)
 
-    # Accept both .xlsx and .csv
     ref_files = (
         glob.glob(os.path.join(ref_dir, '*.xlsx')) +
         glob.glob(os.path.join(ref_dir, '*.csv'))
@@ -148,9 +143,6 @@ def _load_sifa_xlsx(path, label):
         Row 3+: data rows (col A = quarter label like '2024-Q1')
 
     Returns: (codes_list, cells_dict, descriptions_list)
-        codes_list:  list of SIMBA codes
-        cells_dict:  {(quarter_label, col_idx): value, ...}
-        descriptions_list: list of description strings
     """
     if config.VERBOSE:
         print(f'Loading {label}: {os.path.basename(path)}')
@@ -158,7 +150,6 @@ def _load_sifa_xlsx(path, label):
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb.active
 
-    # Row 1: SIMBA codes starting from column B
     codes = []
     for c in range(2, ws.max_column + 1):
         code = ws.cell(row=1, column=c).value
@@ -166,13 +157,11 @@ def _load_sifa_xlsx(path, label):
             break
         codes.append(str(code).strip())
 
-    # Row 2: descriptions
     descriptions = []
     for c in range(2, 2 + len(codes)):
         desc = ws.cell(row=2, column=c).value
         descriptions.append(str(desc).strip() if desc else '')
 
-    # Row 3+: data
     cells = {}
     quarters_found = []
     for r in range(3, ws.max_row + 1):
@@ -217,21 +206,16 @@ def _load_sifa_csv(path, label):
         header = next(reader, None)
         second = next(reader, None)
 
-        # Row 1: codes (skip first empty column)
         codes = [c.strip() for c in header[1:]] if header else []
 
-        # Row 2: check if it's a description row
         descriptions = []
         data_rows_raw = []
         if second and len(second) > 1 and ':' in str(second[1]):
-            # It's a description row
             descriptions = [d.strip() for d in second[1:]]
-            # Read remaining data rows
             for row in reader:
                 if row and row[0].strip():
                     data_rows_raw.append(row)
         else:
-            # No description row; second is a data row
             if second and second[0].strip():
                 data_rows_raw.append(second)
             for row in reader:
@@ -274,7 +258,6 @@ def _load_source_sections(ws):
     Locate fund type sections in a source Excel worksheet.
     Returns list of {'fund_type_display': name, 'header_row': N, 'data_start': N}
     """
-    # Known section names (lowercase)
     section_names = [
         'all types of funds',
         'equity funds',
@@ -294,7 +277,6 @@ def _load_source_sections(ws):
 
         for sn in section_names:
             if cell_text == sn:
-                # Find data start row
                 data_start = None
                 for r in range(row + 1, min(row + 10, ws.max_row + 1)):
                     v = ws.cell(row=r, column=1).value
@@ -317,14 +299,7 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
     """
     Open the source Excel file and check the actual value for a specific
     quarter/column to determine which side (pipeline or reference) is correct.
-
-    Returns dict with verification info:
-        source_value: the raw value from the source Excel
-        pipeline_correct: True/False/None
-        reference_correct: True/False/None
-        note: human-readable explanation
     """
-    # Parse quarter label: "2024-Q3" -> year=2024, q=3
     match = re.match(r'(\d{4})-Q(\d)', quarter_label)
     if not match:
         return {'source_value': None, 'note': f'Cannot parse quarter: {quarter_label}'}
@@ -338,15 +313,11 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
     except Exception as e:
         return {'source_value': None, 'note': f'Cannot open source: {e}'}
 
-    # Determine which section and metric this column maps to
-    # 350 columns = 7 sections x 50 cols
-    # Each section: 10 NETSAVING + 10 NETSAVINGSUM + 10 NETSAVINGPERC + 10 NETASSET + 10 NETASSETPERC
     section_idx = col_idx // 50
     position_in_section = col_idx % 50
     metric_idx = position_in_section // 10
     category_idx = position_in_section % 10
 
-    # Find the section in the source worksheet
     sections = _load_source_sections(ws)
     if section_idx >= len(sections):
         wb.close()
@@ -354,7 +325,6 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
 
     section = sections[section_idx]
 
-    # Find category rows starting from data_start
     data_rows = []
     row = section['data_start']
     while len(data_rows) < 10 and row <= ws.max_row:
@@ -371,12 +341,6 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
 
     target_row = data_rows[category_idx]
 
-    # Determine Excel column based on metric
-    # metric 0 = NETSAVING -> quarter column (B=2, C=3, D=4, E=5)
-    # metric 1 = NETSAVINGSUM -> col F=6
-    # metric 2 = NETSAVINGPERC -> col G=7
-    # metric 3 = NETASSET -> col H=8
-    # metric 4 = NETASSETPERC -> col I=9
     quarter_col_map = {1: 2, 2: 3, 3: 4, 4: 5}
 
     if metric_idx == 0:
@@ -396,7 +360,6 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
     source_value = ws.cell(row=target_row, column=target_col).value
     wb.close()
 
-    # Clean the source value
     if isinstance(source_value, (int, float)):
         source_value = float(source_value)
     elif source_value is not None:
@@ -405,7 +368,6 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
         except (ValueError, TypeError):
             pass
 
-    # Compare with both sides
     result = {
         'source_value': source_value,
         'source_row': target_row,
@@ -453,11 +415,10 @@ def verify_from_source(source_path, quarter_label, col_idx, pipeline_val, ref_va
 
 class ComparisonReport:
 
-    def __init__(self, pipeline_path, reference_path, source_downloads, pipeline_csv):
+    def __init__(self, pipeline_path, reference_path, source_downloads):
         self.pipeline_path  = pipeline_path
         self.reference_path = reference_path
         self.source_downloads = source_downloads  # {year: filepath}
-        self.pipeline_csv   = pipeline_csv
 
         self.pipeline_codes  = []
         self.pipeline_cells  = {}
@@ -466,21 +427,22 @@ class ComparisonReport:
         self.reference_cells = {}
         self.reference_descs = []
 
-        self.matches    = []
-        self.mismatches = []
-        self.missing    = []
-        self.extra      = []
+        self.matches            = []
+        self.mismatches_full    = []
+        self.mismatches_decimal = []
+        self.missing            = []
+        self.extra              = []
 
-        self.mismatch_coords = []
-        self.missing_coords  = []
-        self.extra_coords    = []
+        self.full_mismatch_coords    = []
+        self.decimal_mismatch_coords = []
+        self.missing_coords          = []
+        self.extra_coords            = []
 
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
 
     def get_section_name(self, col_idx):
-        """Return human-readable section name for a column index."""
         section_idx = col_idx // 50
         section_names = [
             'All types of funds', 'Equity funds', 'Balanced funds',
@@ -492,7 +454,6 @@ class ComparisonReport:
         return 'UNKNOWN'
 
     def get_metric_name(self, col_idx):
-        """Return metric name for a column index."""
         position = col_idx % 50
         metric_idx = position // 10
         metric_names = [
@@ -504,7 +465,6 @@ class ComparisonReport:
         return 'UNKNOWN'
 
     def get_category_name(self, col_idx):
-        """Return category name for a column index."""
         position = col_idx % 50
         cat_idx = position % 10
         cat_names = [
@@ -518,7 +478,6 @@ class ComparisonReport:
         return 'UNKNOWN'
 
     def compare_values(self, val1, val2):
-        """Compare two values with float tolerance."""
         if val1 is None and val2 is None:
             return True, 0
         if val1 is None or val2 is None:
@@ -540,7 +499,6 @@ class ComparisonReport:
         if col_idx < len(self.pipeline_descs):
             desc = self.pipeline_descs[col_idx]
 
-        # Find source file for the year
         year_match = re.match(r'(\d{4})', quarter)
         year = int(year_match.group(1)) if year_match else None
         source_file = ''
@@ -574,7 +532,6 @@ class ComparisonReport:
         if config.VERBOSE:
             print('\nPerforming comparison...')
 
-        # Only compare quarters that exist in BOTH files
         pipeline_quarters = set(k[0] for k in self.pipeline_cells.keys())
         reference_quarters = set(k[0] for k in self.reference_cells.keys())
         common_quarters = sorted(pipeline_quarters & reference_quarters)
@@ -592,7 +549,6 @@ class ComparisonReport:
         if reference_only and config.VERBOSE:
             print(f'  Reference only (not compared): {reference_only}')
 
-        # Compare overlapping quarters cell-by-cell
         num_codes = max(len(self.pipeline_codes), len(self.reference_codes))
 
         for quarter in common_quarters:
@@ -608,11 +564,21 @@ class ComparisonReport:
                     if match:
                         self.matches.append((quarter, col_idx))
                     else:
-                        self.mismatches.append(
-                            self.build_row_dict('MISMATCH', quarter, col_idx,
-                                                code, out_val, ref_val, diff)
-                        )
-                        self.mismatch_coords.append((quarter, col_idx))
+                        row_dict = self.build_row_dict(
+                            'MISMATCH', quarter, col_idx,
+                            code, out_val, ref_val, diff)
+
+                        # Separate into full vs decimal mismatch
+                        abs_diff = abs(float(diff)) if diff is not None else 0
+                        if abs_diff > config.DECIMAL_MISMATCH_THRESHOLD:
+                            row_dict['Status'] = 'MISMATCH_FULL'
+                            self.mismatches_full.append(row_dict)
+                            self.full_mismatch_coords.append((quarter, col_idx))
+                        else:
+                            row_dict['Status'] = 'MISMATCH_DECIMAL'
+                            self.mismatches_decimal.append(row_dict)
+                            self.decimal_mismatch_coords.append((quarter, col_idx))
+
                 elif out_val is None:
                     self.missing.append(
                         self.build_row_dict('MISSING', quarter, col_idx,
@@ -627,10 +593,13 @@ class ComparisonReport:
                     self.extra_coords.append((quarter, col_idx))
 
         if config.VERBOSE:
-            print(f'\n  Matches:    {len(self.matches)}')
-            print(f'  Mismatches: {len(self.mismatches)}')
-            print(f'  Missing:    {len(self.missing)}')
-            print(f'  New values: {len(self.extra)}')
+            total_mm = len(self.mismatches_full) + len(self.mismatches_decimal)
+            print(f'\n  Matches:             {len(self.matches)}')
+            print(f'  Mismatches (total):  {total_mm}')
+            print(f'    Full mismatches:   {len(self.mismatches_full)}')
+            print(f'    Decimal mismatches:{len(self.mismatches_decimal)}')
+            print(f'  Missing:             {len(self.missing)}')
+            print(f'  New values:          {len(self.extra)}')
 
     # ------------------------------------------------------------------
     # Source verification for mismatches
@@ -638,14 +607,15 @@ class ComparisonReport:
 
     def verify_mismatches(self):
         """Check each mismatch against the source Excel to determine who is correct."""
-        if not self.mismatches or not self.source_downloads:
+        all_mismatches = self.mismatches_full + self.mismatches_decimal
+        if not all_mismatches or not self.source_downloads:
             return
 
         if config.VERBOSE:
             print('\nVerifying mismatches against source Excel files...')
 
         verified = 0
-        for row in self.mismatches:
+        for row in all_mismatches:
             year = row.get('_year')
             if year and year in self.source_downloads:
                 result = verify_from_source(
@@ -667,14 +637,13 @@ class ComparisonReport:
                 row['Verification_Note'] = 'No source file available'
 
         if config.VERBOSE:
-            print(f'  Verified {verified}/{len(self.mismatches)} mismatches')
+            print(f'  Verified {verified}/{len(all_mismatches)} mismatches')
 
-            # Summary of verification
-            p_correct = sum(1 for r in self.mismatches if r.get('Pipeline_Correct') is True)
-            r_correct = sum(1 for r in self.mismatches if r.get('Reference_Correct') is True)
-            both = sum(1 for r in self.mismatches
+            p_correct = sum(1 for r in all_mismatches if r.get('Pipeline_Correct') is True)
+            r_correct = sum(1 for r in all_mismatches if r.get('Reference_Correct') is True)
+            both = sum(1 for r in all_mismatches
                        if r.get('Pipeline_Correct') is True and r.get('Reference_Correct') is True)
-            neither = sum(1 for r in self.mismatches
+            neither = sum(1 for r in all_mismatches
                           if r.get('Pipeline_Correct') is False and r.get('Reference_Correct') is False)
 
             print(f'  Pipeline correct:  {p_correct}')
@@ -683,30 +652,6 @@ class ComparisonReport:
                 print(f'  Both correct (tolerance): {both}')
             if neither:
                 print(f'  Neither correct: {neither}')
-
-    # ------------------------------------------------------------------
-    # Source file copier
-    # ------------------------------------------------------------------
-
-    def copy_source_files(self, rows, dest_dir):
-        """Copy source Excel files referenced by rows into dest_dir."""
-        os.makedirs(dest_dir, exist_ok=True)
-        copied = {}
-
-        for row in rows:
-            year = row.get('_year')
-            if year and year in self.source_downloads:
-                src_path = self.source_downloads[year]
-                fn = os.path.basename(src_path)
-                if fn not in copied:
-                    dest = os.path.join(dest_dir, fn)
-                    if os.path.exists(src_path):
-                        shutil.copy2(src_path, dest)
-                        copied[fn] = dest
-                    else:
-                        copied[fn] = '(source not found)'
-
-        return copied
 
     # ------------------------------------------------------------------
     # CSV writers
@@ -720,10 +665,10 @@ class ComparisonReport:
         'Pipeline_Value', 'Reference_Value', 'Difference',
         'Source_File',
         'Source_Value', 'Pipeline_Correct', 'Reference_Correct',
-        'Verification_Note', 'Copied_To',
+        'Verification_Note',
     ]
 
-    def _write_category_csv(self, rows, output_path, copied_map, label):
+    def _write_category_csv(self, rows, output_path, label):
         if config.VERBOSE:
             print(f'  Writing {label} report: {os.path.basename(output_path)}  '
                   f'({len(rows)} rows)')
@@ -733,8 +678,6 @@ class ComparisonReport:
                                     extrasaction='ignore')
             writer.writeheader()
             for row in rows:
-                sf = row.get('Source_File', '')
-                row['Copied_To'] = copied_map.get(sf, '') if sf and sf != 'NO SOURCE FILE' else ''
                 writer.writerow(row)
 
     # ------------------------------------------------------------------
@@ -742,14 +685,17 @@ class ComparisonReport:
     # ------------------------------------------------------------------
 
     def generate_summary_stats(self):
-        total = len(self.matches) + len(self.mismatches) + len(self.missing) + len(self.extra)
+        total_mm = len(self.mismatches_full) + len(self.mismatches_decimal)
+        total = len(self.matches) + total_mm + len(self.missing) + len(self.extra)
         return {
             'timestamp':            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'pipeline_file':        self.pipeline_path,
             'reference_file':       self.reference_path,
             'total_cells_compared': total,
             'matches':              len(self.matches),
-            'mismatches':           len(self.mismatches),
+            'mismatches_full':      len(self.mismatches_full),
+            'mismatches_decimal':   len(self.mismatches_decimal),
+            'mismatches_total':     total_mm,
             'missing':              len(self.missing),
             'new_values':           len(self.extra),
             'match_rate':           (len(self.matches) / total * 100) if total > 0 else 0,
@@ -761,7 +707,62 @@ class ComparisonReport:
             groups[key_func(row)].append(row)
         return groups
 
-    def write_summary_report(self, output_path, copied_mm, copied_ms, copied_nv):
+    def _write_mismatch_detail(self, f, label, mismatches, color_label):
+        """Write mismatch detail section to summary report."""
+        if not mismatches:
+            return
+
+        f.write(f'\n  {label} ({color_label} in annotated Excel):\n')
+        f.write(f'  Count: {len(mismatches)}\n')
+
+        f.write('\n    By Section:\n')
+        by_section = self.analyze_by_category(
+            mismatches, lambda r: r['Section'])
+        for section, items in sorted(by_section.items()):
+            f.write(f"      {section}: {len(items)}\n")
+
+        f.write('\n    By Metric:\n')
+        by_metric = self.analyze_by_category(
+            mismatches, lambda r: r['Metric'])
+        for metric, items in sorted(by_metric.items(),
+                                    key=lambda x: -len(x[1])):
+            f.write(f"      {metric}: {len(items)}\n")
+
+        f.write('\n    By Quarter:\n')
+        by_quarter = self.analyze_by_category(
+            mismatches, lambda r: r['Quarter'])
+        for quarter, items in sorted(by_quarter.items()):
+            f.write(f"      {quarter}: {len(items)}\n")
+
+        # Source verification summary
+        p_correct = sum(1 for r in mismatches
+                        if r.get('Pipeline_Correct') is True)
+        r_correct = sum(1 for r in mismatches
+                        if r.get('Reference_Correct') is True)
+        if p_correct or r_correct:
+            f.write('\n    Source Verification:\n')
+            f.write(f"      Pipeline matches source: {p_correct}\n")
+            f.write(f"      Reference matches source: {r_correct}\n")
+
+        f.write(f'\n    Top examples (by absolute difference):\n')
+        sorted_mm = sorted(
+            [r for r in mismatches if r['Difference'] != ''],
+            key=lambda r: abs(float(r['Difference']))
+            if r['Difference'] else 0,
+            reverse=True,
+        )[:config.MAX_CONSOLE_EXAMPLES]
+        for r in sorted_mm:
+            f.write(f"      Quarter: {r['Quarter']}  Col: {r['Excel_Column']}  "
+                    f"{r['Section']} | {r['Category']} | {r['Metric']}\n")
+            f.write(f"        Pipeline : {r['Pipeline_Value']}\n")
+            f.write(f"        Reference: {r['Reference_Value']}\n")
+            f.write(f"        Diff     : {r['Difference']}\n")
+            if r.get('Source_Value') != '':
+                f.write(f"        Source   : {r.get('Source_Value', '')}\n")
+                f.write(f"        Verdict  : {r.get('Verification_Note', '')}\n")
+        f.write('\n')
+
+    def write_summary_report(self, output_path):
         if config.VERBOSE:
             print(f'Writing summary report: {os.path.basename(output_path)}')
 
@@ -776,81 +777,46 @@ class ComparisonReport:
             f.write('FILES COMPARED:\n')
             f.write(f"  Pipeline Output : {os.path.basename(stats['pipeline_file'])}\n")
             f.write(f"  Reference       : {os.path.basename(stats['reference_file'])}\n")
-            f.write(f"  Source files    : {len(self.source_downloads)} year(s)\n\n")
+            f.write(f"  Source files     : {len(self.source_downloads)} year(s)\n\n")
 
             f.write('OVERALL STATISTICS:\n')
             f.write(f"  Total cells compared : {stats['total_cells_compared']:,}\n")
             f.write(f"  Matches              : {stats['matches']:,} "
                     f"({stats['match_rate']:.2f}%)\n")
-            f.write(f"  Mismatches           : {stats['mismatches']:,}\n")
+            f.write(f"  Mismatches (total)   : {stats['mismatches_total']:,}\n")
+            f.write(f"    Full mismatches    : {stats['mismatches_full']:,}  "
+                    f"(diff > {config.DECIMAL_MISMATCH_THRESHOLD})\n")
+            f.write(f"    Decimal mismatches : {stats['mismatches_decimal']:,}  "
+                    f"(diff <= {config.DECIMAL_MISMATCH_THRESHOLD})\n")
             f.write(f"  Missing (in ref)     : {stats['missing']:,}\n")
             f.write(f"  New values (extra)   : {stats['new_values']:,}\n\n")
 
             f.write('OUTPUT FILES:\n')
-            f.write(f"  {config.REPORT_MISMATCHES}  ({stats['mismatches']} rows)\n")
-            f.write(f"  {config.REPORT_MISSING}     ({stats['missing']} rows)\n")
-            f.write(f"  {config.REPORT_NEW_VALUES}  ({stats['new_values']} rows)\n\n")
+            f.write(f"  {config.REPORT_MISMATCHES_FULL}     "
+                    f"({stats['mismatches_full']} rows)\n")
+            f.write(f"  {config.REPORT_MISMATCHES_DECIMAL}  "
+                    f"({stats['mismatches_decimal']} rows)\n")
+            f.write(f"  {config.REPORT_MISSING}             "
+                    f"({stats['missing']} rows)\n")
+            f.write(f"  {config.REPORT_NEW_VALUES}          "
+                    f"({stats['new_values']} rows)\n\n")
 
-            # --- Mismatches detail ---
-            if self.mismatches:
+            f.write('ANNOTATED EXCEL COLORS:\n')
+            f.write('  RED    = Full mismatch (wrong value / mapping error)\n')
+            f.write('  ORANGE = Decimal mismatch (rounding difference)\n')
+            f.write('  YELLOW = Missing (in reference, not in pipeline)\n')
+            f.write('  GREEN  = New value (in pipeline, not in reference)\n\n')
+
+            # --- Full mismatches ---
+            if self.mismatches_full or self.mismatches_decimal:
                 f.write('\u2500' * 70 + '\n')
                 f.write('MISMATCHES\n')
                 f.write('\u2500' * 70 + '\n')
 
-                f.write('\n  By Section:\n')
-                by_section = self.analyze_by_category(
-                    self.mismatches, lambda r: r['Section'])
-                for section, items in sorted(by_section.items()):
-                    f.write(f"    {section}: {len(items)}\n")
-
-                f.write('\n  By Metric:\n')
-                by_metric = self.analyze_by_category(
-                    self.mismatches, lambda r: r['Metric'])
-                for metric, items in sorted(by_metric.items(),
-                                            key=lambda x: -len(x[1])):
-                    f.write(f"    {metric}: {len(items)}\n")
-
-                f.write('\n  By Quarter:\n')
-                by_quarter = self.analyze_by_category(
-                    self.mismatches, lambda r: r['Quarter'])
-                for quarter, items in sorted(by_quarter.items()):
-                    f.write(f"    {quarter}: {len(items)}\n")
-
-                # Source verification summary
-                p_correct = sum(1 for r in self.mismatches
-                                if r.get('Pipeline_Correct') is True)
-                r_correct = sum(1 for r in self.mismatches
-                                if r.get('Reference_Correct') is True)
-                if p_correct or r_correct:
-                    f.write('\n  Source Verification:\n')
-                    f.write(f"    Pipeline matches source: {p_correct}\n")
-                    f.write(f"    Reference matches source: {r_correct}\n")
-
-                f.write(f'\n  Top mismatches (by absolute difference):\n')
-                sorted_mm = sorted(
-                    [r for r in self.mismatches if r['Difference'] != ''],
-                    key=lambda r: abs(float(r['Difference']))
-                    if r['Difference'] else 0,
-                    reverse=True,
-                )[:config.MAX_CONSOLE_EXAMPLES]
-                for r in sorted_mm:
-                    f.write(f"    Quarter: {r['Quarter']}  Col: {r['Excel_Column']}  "
-                            f"{r['Section']} | {r['Category']} | {r['Metric']}\n")
-                    f.write(f"      Pipeline : {r['Pipeline_Value']}\n")
-                    f.write(f"      Reference: {r['Reference_Value']}\n")
-                    f.write(f"      Diff     : {r['Difference']}\n")
-                    if r.get('Source_Value') != '':
-                        f.write(f"      Source   : {r.get('Source_Value', '')}\n")
-                        f.write(f"      Verdict  : {r.get('Verification_Note', '')}\n")
-                    f.write(f"      Source file: {r['Source_File']}\n")
-                f.write('\n')
-
-                if copied_mm:
-                    f.write(f"  Source files copied to  "
-                            f"files/{config.MISMATCH_FILES_DIR}/:\n")
-                    for fn in sorted(copied_mm.keys()):
-                        f.write(f"    {fn}\n")
-                    f.write('\n')
+                self._write_mismatch_detail(
+                    f, 'FULL MISMATCHES', self.mismatches_full, 'RED')
+                self._write_mismatch_detail(
+                    f, 'DECIMAL MISMATCHES', self.mismatches_decimal, 'ORANGE')
 
             # --- Missing detail ---
             if self.missing:
@@ -871,13 +837,6 @@ class ComparisonReport:
                     f.write(f"    {quarter}: {len(items)}\n")
                 f.write('\n')
 
-                if copied_ms:
-                    f.write(f"  Source files copied to  "
-                            f"files/{config.MISSING_FILES_DIR}/:\n")
-                    for fn in sorted(copied_ms.keys()):
-                        f.write(f"    {fn}\n")
-                    f.write('\n')
-
             # --- New values detail ---
             if self.extra:
                 f.write('\u2500' * 70 + '\n')
@@ -891,45 +850,81 @@ class ComparisonReport:
                     f.write(f"    {section}: {len(items)}\n")
                 f.write('\n')
 
-                if copied_nv:
-                    f.write(f"  Source files copied to  "
-                            f"files/{config.NEW_VALUES_FILES_DIR}/:\n")
-                    for fn in sorted(copied_nv.keys()):
-                        f.write(f"    {fn}\n")
-                    f.write('\n')
-
             f.write('=' * 70 + '\n')
             f.write('Detailed CSV reports:\n')
-            f.write(f"  {config.REPORT_MISMATCHES}\n")
+            f.write(f"  {config.REPORT_MISMATCHES_FULL}\n")
+            f.write(f"  {config.REPORT_MISMATCHES_DECIMAL}\n")
             f.write(f"  {config.REPORT_MISSING}\n")
             f.write(f"  {config.REPORT_NEW_VALUES}\n")
             f.write('=' * 70 + '\n')
 
     # ------------------------------------------------------------------
+    # Build xlsx from loaded data (for CSV sources)
+    # ------------------------------------------------------------------
+
+    def _build_xlsx_from_data(self, codes, cells, descs, output_path):
+        """
+        Create an xlsx file from loaded data so it can be annotated.
+        Used when the source is a CSV file.
+        """
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = 'DATA'
+
+        # Row 1: codes
+        for c_idx, code in enumerate(codes):
+            ws.cell(row=1, column=c_idx + 2, value=code)
+
+        # Row 2: descriptions
+        for c_idx, desc in enumerate(descs):
+            if desc:
+                ws.cell(row=2, column=c_idx + 2, value=desc)
+
+        # Data rows
+        quarters = sorted(set(k[0] for k in cells.keys()))
+        for r_idx, quarter in enumerate(quarters):
+            ws.cell(row=r_idx + 3, column=1, value=quarter)
+            for c_idx in range(len(codes)):
+                val = cells.get((quarter, c_idx))
+                if val is not None:
+                    ws.cell(row=r_idx + 3, column=c_idx + 2, value=val)
+
+        wb.save(output_path)
+        wb.close()
+
+    # ------------------------------------------------------------------
     # Annotated Excel
     # ------------------------------------------------------------------
 
-    def create_annotated_excel(self, source_path, output_path, coords_dict, label):
+    def create_annotated_excel(self, source_path, output_path, label,
+                               codes=None, cells=None, descs=None):
         """
         Create a copy of the DATA Excel with coloured highlights.
-        Red = mismatch, Yellow = missing, Green = new value.
+        Red = full mismatch, Orange = decimal mismatch,
+        Yellow = missing, Green = new value.
+
+        If source is CSV, builds an xlsx from the loaded data first.
         """
         if config.VERBOSE:
             print(f'Creating annotated {label} file: '
                   f'{os.path.basename(output_path)}')
 
-        shutil.copy2(source_path, output_path)
-
-        # Only annotate .xlsx files
-        if not output_path.lower().endswith('.xlsx'):
+        if source_path.lower().endswith('.xlsx'):
+            import shutil
+            shutil.copy2(source_path, output_path)
+        elif codes is not None:
+            self._build_xlsx_from_data(codes, cells, descs, output_path)
+        else:
             if config.VERBOSE:
-                print('  Skipped (not .xlsx)')
+                print('  Skipped (not .xlsx and no data to build from)')
             return
 
         wb = openpyxl.load_workbook(output_path)
         ws = wb.active
 
         red_fill    = PatternFill(start_color='FFCCCC', end_color='FFCCCC',
+                                  fill_type='solid')
+        orange_fill = PatternFill(start_color='FFD699', end_color='FFD699',
                                   fill_type='solid')
         yellow_fill = PatternFill(start_color='FFFFCC', end_color='FFFFCC',
                                   fill_type='solid')
@@ -944,15 +939,25 @@ class ComparisonReport:
             if val:
                 quarter_to_row[str(val).strip()] = r
 
-        highlight_counts = {'MISMATCH': 0, 'MISSING': 0, 'NEW_VALUE': 0}
-        fill_map = {
-            'MISMATCH': red_fill,
-            'MISSING': yellow_fill,
-            'NEW_VALUE': green_fill,
+        highlight_counts = {
+            'FULL': 0, 'DECIMAL': 0, 'MISSING': 0, 'NEW_VALUE': 0,
         }
 
-        for status, coords in coords_dict.items():
-            fill = fill_map[status]
+        # Determine which coords to use based on label
+        if label == 'Pipeline':
+            coord_map = {
+                'FULL':      (self.full_mismatch_coords, red_fill),
+                'DECIMAL':   (self.decimal_mismatch_coords, orange_fill),
+                'NEW_VALUE': (self.extra_coords, green_fill),
+            }
+        else:  # Reference
+            coord_map = {
+                'FULL':    (self.full_mismatch_coords, red_fill),
+                'DECIMAL': (self.decimal_mismatch_coords, orange_fill),
+                'MISSING': (self.missing_coords, yellow_fill),
+            }
+
+        for status, (coords, fill) in coord_map.items():
             for quarter, col_idx in coords:
                 row_num = quarter_to_row.get(quarter)
                 if row_num:
@@ -962,17 +967,19 @@ class ComparisonReport:
         # Insert legend row at top
         ws.insert_rows(1)
         ws.cell(row=1, column=1, value='LEGEND:').font = bold_font
-        ws.cell(row=1, column=2, value='RED = Mismatch').fill = red_fill
-        ws.cell(row=1, column=3, value='YELLOW = Missing').fill = yellow_fill
-        ws.cell(row=1, column=4, value='GREEN = New Value').fill = green_fill
-        ws.cell(row=1, column=5,
+        ws.cell(row=1, column=2, value='RED = Full Mismatch').fill = red_fill
+        ws.cell(row=1, column=3, value='ORANGE = Decimal Mismatch').fill = orange_fill
+        ws.cell(row=1, column=4, value='YELLOW = Missing').fill = yellow_fill
+        ws.cell(row=1, column=5, value='GREEN = New Value').fill = green_fill
+        ws.cell(row=1, column=6,
                 value=f'Annotated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
 
         wb.save(output_path)
         wb.close()
 
         if config.VERBOSE:
-            print(f'  Highlighted: {highlight_counts["MISMATCH"]} mismatches (red), '
+            print(f'  Highlighted: {highlight_counts["FULL"]} full (red), '
+                  f'{highlight_counts["DECIMAL"]} decimal (orange), '
                   f'{highlight_counts["MISSING"]} missing (yellow), '
                   f'{highlight_counts["NEW_VALUE"]} new values (green)')
 
@@ -988,6 +995,8 @@ class ComparisonReport:
         print(f'Pipeline Output  : {self.pipeline_path}')
         print(f'Reference File   : {self.reference_path}')
         print(f'Source Downloads  : {len(self.source_downloads)} year file(s)')
+        print(f'Mismatch threshold: {config.DECIMAL_MISMATCH_THRESHOLD} '
+              f'(above = full, at/below = decimal)')
         print()
 
         for label, path in [('Pipeline', self.pipeline_path),
@@ -1003,7 +1012,6 @@ class ComparisonReport:
             load_data_file(self.reference_path, 'Reference')
 
         if self.pipeline_codes != self.reference_codes:
-            # Check how many differ
             diffs = sum(1 for a, b in zip(self.pipeline_codes, self.reference_codes)
                         if a != b)
             print(f'\nWARNING: {diffs} column codes differ between pipeline '
@@ -1016,150 +1024,92 @@ class ComparisonReport:
         self.verify_mismatches()
 
         # Build run output directory
-        timestamp    = datetime.now().strftime('%Y%m%d_%H%M%S')
-        compare_dir  = os.path.dirname(os.path.abspath(__file__))
-        run_dir      = os.path.join(compare_dir, f'run_{timestamp}')
-        files_dir    = os.path.join(run_dir, config.FILES_DIR)
-        mismatch_dir = os.path.join(files_dir, config.MISMATCH_FILES_DIR)
-        missing_dir  = os.path.join(files_dir, config.MISSING_FILES_DIR)
-        nv_dir       = os.path.join(files_dir, config.NEW_VALUES_FILES_DIR)
+        timestamp   = datetime.now().strftime('%Y%m%d_%H%M%S')
+        compare_dir = os.path.dirname(os.path.abspath(__file__))
+        run_dir     = os.path.join(compare_dir, f'run_{timestamp}')
 
         os.makedirs(run_dir, exist_ok=True)
 
         if config.VERBOSE:
             print(f'\nOutput directory: {run_dir}')
 
-        # ---------- Copy original pipeline & reference files ----------
-        if config.VERBOSE:
-            print('\nCopying original pipeline and reference files...')
-
-        output_copy = os.path.join(
-            run_dir, f'ORIGINAL_{os.path.basename(self.pipeline_path)}')
-        ref_copy = os.path.join(
-            run_dir, f'ORIGINAL_{os.path.basename(self.reference_path)}')
-        shutil.copy2(self.pipeline_path, output_copy)
-        shutil.copy2(self.reference_path, ref_copy)
-
-        # ---------- Copy source files ----------
-        if config.VERBOSE:
-            print('\nCopying source files from downloads...')
-
-        copied_mm = {}
-        copied_ms = {}
-        copied_nv = {}
-
-        if self.mismatches:
-            copied_mm = self.copy_source_files(self.mismatches, mismatch_dir)
-            if config.VERBOSE:
-                print(f'  Mismatch  : {len(copied_mm)} source file(s) -> '
-                      f'files/{config.MISMATCH_FILES_DIR}/')
-
-        if self.missing:
-            copied_ms = self.copy_source_files(self.missing, missing_dir)
-            if config.VERBOSE:
-                print(f'  Missing   : {len(copied_ms)} source file(s) -> '
-                      f'files/{config.MISSING_FILES_DIR}/')
-
-        if self.extra:
-            copied_nv = self.copy_source_files(self.extra, nv_dir)
-            if config.VERBOSE:
-                print(f'  New values: {len(copied_nv)} source file(s) -> '
-                      f'files/{config.NEW_VALUES_FILES_DIR}/')
-
         # ---------- Annotated Excel ----------
         if config.VERBOSE:
             print()
 
-        # Annotate pipeline output (only if xlsx)
-        if self.pipeline_path.lower().endswith('.xlsx'):
-            annotated_pipeline = os.path.join(
-                run_dir,
-                f'ANNOTATED_Pipeline_{os.path.basename(self.pipeline_path)}')
-            self.create_annotated_excel(
-                self.pipeline_path, annotated_pipeline,
-                {'MISMATCH': self.mismatch_coords,
-                 'NEW_VALUE': self.extra_coords},
-                'Pipeline',
-            )
+        # Pipeline annotated (build xlsx from CSV data if needed)
+        pipeline_base = os.path.splitext(os.path.basename(self.pipeline_path))[0]
+        annotated_pipeline = os.path.join(
+            run_dir, f'ANNOTATED_Pipeline_{pipeline_base}.xlsx')
+        self.create_annotated_excel(
+            self.pipeline_path, annotated_pipeline, 'Pipeline',
+            codes=self.pipeline_codes, cells=self.pipeline_cells,
+            descs=self.pipeline_descs)
 
-        # Annotate reference (only if xlsx)
-        if self.reference_path.lower().endswith('.xlsx'):
-            annotated_ref = os.path.join(
-                run_dir,
-                f'ANNOTATED_Reference_{os.path.basename(self.reference_path)}')
-            self.create_annotated_excel(
-                self.reference_path, annotated_ref,
-                {'MISMATCH': self.mismatch_coords,
-                 'MISSING': self.missing_coords},
-                'Reference',
-            )
+        # Reference annotated (build xlsx from CSV data if needed)
+        reference_base = os.path.splitext(os.path.basename(self.reference_path))[0]
+        annotated_ref = os.path.join(
+            run_dir, f'ANNOTATED_Reference_{reference_base}.xlsx')
+        self.create_annotated_excel(
+            self.reference_path, annotated_ref, 'Reference',
+            codes=self.reference_codes, cells=self.reference_cells,
+            descs=self.reference_descs)
 
         # ---------- Separate CSV reports ----------
         if config.VERBOSE:
             print('\nWriting separate CSV reports...')
 
         self._write_category_csv(
-            self.mismatches,
-            os.path.join(run_dir, config.REPORT_MISMATCHES),
-            copied_mm, 'Mismatches',
+            self.mismatches_full,
+            os.path.join(run_dir, config.REPORT_MISMATCHES_FULL),
+            'Full Mismatches',
+        )
+        self._write_category_csv(
+            self.mismatches_decimal,
+            os.path.join(run_dir, config.REPORT_MISMATCHES_DECIMAL),
+            'Decimal Mismatches',
         )
         self._write_category_csv(
             self.missing,
             os.path.join(run_dir, config.REPORT_MISSING),
-            copied_ms, 'Missing',
+            'Missing',
         )
         self._write_category_csv(
             self.extra,
             os.path.join(run_dir, config.REPORT_NEW_VALUES),
-            copied_nv, 'New Values',
+            'New Values',
         )
 
         # ---------- Summary ----------
         summary_path = os.path.join(run_dir, config.SUMMARY_FILENAME)
-        self.write_summary_report(summary_path, copied_mm, copied_ms,
-                                  copied_nv)
+        self.write_summary_report(summary_path)
 
         # ---------- Console summary ----------
         stats = self.generate_summary_stats()
         print('\n' + '=' * 70)
         print('COMPARISON COMPLETE')
         print('=' * 70)
-        print(f"\nMatches    : {stats['matches']:,} ({stats['match_rate']:.2f}%)")
-        print(f"Mismatches : {stats['mismatches']:,}")
-        print(f"Missing    : {stats['missing']:,}")
-        print(f"New values : {stats['new_values']:,}")
+        print(f"\nMatches              : {stats['matches']:,} ({stats['match_rate']:.2f}%)")
+        print(f"Full mismatches      : {stats['mismatches_full']:,}  (RED)")
+        print(f"Decimal mismatches   : {stats['mismatches_decimal']:,}  (ORANGE)")
+        print(f"Missing              : {stats['missing']:,}  (YELLOW)")
+        print(f"New values           : {stats['new_values']:,}  (GREEN)")
         print(f'\nOutput directory: {run_dir}')
 
         print('\nFiles created:')
         created = [
-            os.path.basename(output_copy),
-            os.path.basename(ref_copy),
+            f'ANNOTATED_Pipeline_{pipeline_base}.xlsx',
+            f'ANNOTATED_Reference_{reference_base}.xlsx',
         ]
-        if self.pipeline_path.lower().endswith('.xlsx'):
-            created.append(f'ANNOTATED_Pipeline_{os.path.basename(self.pipeline_path)}')
-        if self.reference_path.lower().endswith('.xlsx'):
-            created.append(f'ANNOTATED_Reference_{os.path.basename(self.reference_path)}')
         created += [
-            config.REPORT_MISMATCHES,
+            config.REPORT_MISMATCHES_FULL,
+            config.REPORT_MISMATCHES_DECIMAL,
             config.REPORT_MISSING,
             config.REPORT_NEW_VALUES,
             config.SUMMARY_FILENAME,
         ]
         for name in created:
             print(f'  {name}')
-
-        print(f'\nfiles/ subfolders:')
-        if copied_mm:
-            print(f'  files/{config.MISMATCH_FILES_DIR}/   '
-                  f'({len(copied_mm)} source file(s))')
-        if copied_ms:
-            print(f'  files/{config.MISSING_FILES_DIR}/    '
-                  f'({len(copied_ms)} source file(s))')
-        if copied_nv:
-            print(f'  files/{config.NEW_VALUES_FILES_DIR}/ '
-                  f'({len(copied_nv)} source file(s))')
-        if not (copied_mm or copied_ms or copied_nv):
-            print('  (no source files to copy)')
 
         print('=' * 70)
         return 0
@@ -1190,8 +1140,7 @@ def main():
         print(f'  Source DLs: {len(source_downloads)} year file(s)')
 
         report = ComparisonReport(
-            pipeline_file, reference_file,
-            source_downloads, None,
+            pipeline_file, reference_file, source_downloads,
         )
         return report.run()
 

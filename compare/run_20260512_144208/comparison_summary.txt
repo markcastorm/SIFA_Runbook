@@ -1,0 +1,155 @@
+======================================================================
+SIFA COMPARISON REPORT
+======================================================================
+
+Generated:  2026-05-12 14:42:11
+
+FILES COMPARED:
+  Pipeline Output : SIFA_DATA.csv
+  Reference       : SIFA_DATA_20250212.xlsx
+  Source files     : 5 year(s)
+
+OVERALL STATISTICS:
+  Total cells compared : 1,700
+  Matches              : 1,247 (73.35%)
+  Mismatches (total)   : 11
+    Full mismatches    : 9  (diff > 1.0)
+    Decimal mismatches : 2  (diff <= 1.0)
+  Missing (in ref)     : 290
+  New values (extra)   : 152
+
+OUTPUT FILES:
+  report_mismatches_full.csv     (9 rows)
+  report_mismatches_decimal.csv  (2 rows)
+  report_missing.csv             (290 rows)
+  report_new_values.csv          (152 rows)
+
+ANNOTATED EXCEL COLORS:
+  RED    = Full mismatch (wrong value / mapping error)
+  ORANGE = Decimal mismatch (rounding difference)
+  YELLOW = Missing (in reference, not in pipeline)
+  GREEN  = New value (in pipeline, not in reference)
+
+──────────────────────────────────────────────────────────────────────
+MISMATCHES
+──────────────────────────────────────────────────────────────────────
+
+  FULL MISMATCHES (RED in annotated Excel):
+  Count: 9
+
+    By Section:
+      Long term fixed income: 1
+      Short term fixed income: 8
+
+    By Metric:
+      Net savings sum: 9
+
+    By Quarter:
+      2024-Q4: 9
+
+    Source Verification:
+      Pipeline matches source: 9
+      Reference matches source: 0
+
+    Top examples (by absolute difference):
+      Quarter: 2024-Q4  Col: 171  Long term fixed income | TOTAL | Net savings sum
+        Pipeline : 10368.02
+        Reference: 678477.62
+        Diff     : -668109.6
+        Source   : 10368.019999999999
+        Verdict  : Pipeline matches source; reference differs
+      Quarter: 2024-Q4  Col: 220  Short term fixed income | Others | Net savings sum
+        Pipeline : -623.56
+        Reference: -9958.42999999999
+        Diff     : 9334.87
+        Source   : -623.56
+        Verdict  : Pipeline matches source; reference differs
+      Quarter: 2024-Q4  Col: 217  Short term fixed income | Nominee Accounts | Net savings sum
+        Pipeline : -3375.92
+        Reference: -306.15
+        Diff     : -3069.77
+        Source   : -3375.92
+        Verdict  : Pipeline matches source; reference differs
+      Quarter: 2024-Q4  Col: 214  Short term fixed income | IPS | Net savings sum
+        Pipeline : -61.5
+        Reference: -2558.44
+        Diff     : 2496.94
+        Source   : -61.499999999999986
+        Verdict  : Pipeline matches source; reference differs
+      Quarter: 2024-Q4  Col: 216  Short term fixed income | Premium Pension | Net savings sum
+        Pipeline : -1391.51
+        Reference: -3375.92
+        Diff     : 1984.41
+        Source   : -1391.51
+        Verdict  : Pipeline matches source; reference differs
+
+
+  DECIMAL MISMATCHES (ORANGE in annotated Excel):
+  Count: 2
+
+    By Section:
+      All types of funds: 2
+
+    By Metric:
+      Net savings sum: 1
+      Net savings: 1
+
+    By Quarter:
+      2024-Q4: 1
+      2026-Q1: 1
+
+    Source Verification:
+      Pipeline matches source: 2
+      Reference matches source: 0
+
+    Top examples (by absolute difference):
+      Quarter: 2024-Q4  Col: 12  All types of funds | Swedish households | Net savings sum
+        Pipeline : -19602.79
+        Reference: -19602.8
+        Diff     : 0.01
+        Source   : -19602.790000000005
+        Verdict  : Pipeline matches source; reference differs
+      Quarter: 2026-Q1  Col: 4  All types of funds | IPS | Net savings
+        Pipeline : -1728.83321435
+        Reference: -1728.83
+        Diff     : -0.003214
+        Source   : -1728.8332143499963
+        Verdict  : Pipeline matches source; reference differs
+
+──────────────────────────────────────────────────────────────────────
+MISSING  (present in reference, absent in pipeline)
+──────────────────────────────────────────────────────────────────────
+
+  By Section:
+    All types of funds: 50
+    Balanced funds: 40
+    Equity funds: 40
+    Hedge funds: 40
+    Long term fixed income: 40
+    Other funds: 40
+    Short term fixed income: 40
+
+  By Quarter:
+    2024-Q3: 280
+    2025-Q3: 10
+
+──────────────────────────────────────────────────────────────────────
+NEW VALUES  (present in pipeline, absent in reference)
+──────────────────────────────────────────────────────────────────────
+
+  By Section:
+    All types of funds: 30
+    Balanced funds: 20
+    Equity funds: 20
+    Hedge funds: 20
+    Long term fixed income: 21
+    Other funds: 20
+    Short term fixed income: 21
+
+======================================================================
+Detailed CSV reports:
+  report_mismatches_full.csv
+  report_mismatches_decimal.csv
+  report_missing.csv
+  report_new_values.csv
+======================================================================

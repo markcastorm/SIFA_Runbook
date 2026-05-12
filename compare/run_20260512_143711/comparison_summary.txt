@@ -1,0 +1,39 @@
+======================================================================
+SIFA COMPARISON REPORT
+======================================================================
+
+Generated:  2026-05-12 14:37:12
+
+FILES COMPARED:
+  Pipeline Output : SIFA_DATA.csv
+  Reference       : SIFA_DATA.csv
+  Source files     : 5 year(s)
+
+OVERALL STATISTICS:
+  Total cells compared : 1,410
+  Matches              : 1,410 (100.00%)
+  Mismatches (total)   : 0
+    Full mismatches    : 0  (diff > 1.0)
+    Decimal mismatches : 0  (diff <= 1.0)
+  Missing (in ref)     : 0
+  New values (extra)   : 0
+
+OUTPUT FILES:
+  report_mismatches_full.csv     (0 rows)
+  report_mismatches_decimal.csv  (0 rows)
+  report_missing.csv             (0 rows)
+  report_new_values.csv          (0 rows)
+
+ANNOTATED EXCEL COLORS:
+  RED    = Full mismatch (wrong value / mapping error)
+  ORANGE = Decimal mismatch (rounding difference)
+  YELLOW = Missing (in reference, not in pipeline)
+  GREEN  = New value (in pipeline, not in reference)
+
+======================================================================
+Detailed CSV reports:
+  report_mismatches_full.csv
+  report_mismatches_decimal.csv
+  report_missing.csv
+  report_new_values.csv
+======================================================================
