@@ -21,11 +21,31 @@ import logging
 from collections import OrderedDict
 
 import openpyxl
+from openpyxl.utils import get_column_letter
 import pandas as pd
 
 import config
 
 logger = logging.getLogger(__name__)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Column visibility
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _get_visible_cols(ws):
+    """
+    Return the set of 1-based column indices that are NOT hidden.
+    Columns with no dimension entry are treated as visible (Excel default).
+    Only active when config.SKIP_HIDDEN_COLUMNS is True.
+    """
+    visible = set()
+    for idx in range(1, ws.max_column + 1):
+        letter = get_column_letter(idx)
+        dim = ws.column_dimensions.get(letter)
+        if dim is None or not dim.hidden:
+            visible.add(idx)
+    return visible
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -113,14 +133,15 @@ def _find_category_rows(ws, data_start_row):
 # Quarter detection
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _detect_quarters_with_data(ws, data_rows):
+def _detect_quarters_with_data(ws, data_rows, visible_cols=None):
     """
     Check which quarters (columns B-E) have actual data.
     Examines all non-TOTAL data rows to see which quarter columns
     contain at least one non-zero numeric value.
 
-    This correctly handles years like 2026 where Q2-Q4 columns exist
-    but are filled with zeros (formula placeholders for future data).
+    When visible_cols is provided (SKIP_HIDDEN_COLUMNS=True), any quarter
+    whose source column is hidden is excluded regardless of its values —
+    the provider hides columns to signal data is not yet published.
 
     Returns sorted list of quarter numbers [1, 2, 3] or [1, 2, 3, 4].
     """
@@ -132,6 +153,9 @@ def _detect_quarters_with_data(ws, data_rows):
 
     quarters = []
     for q_num, col_idx in config.EXCEL_QUARTER_COLS.items():
+        if visible_cols is not None and col_idx not in visible_cols:
+            logger.debug(f'Q{q_num} (col {col_idx}) is hidden — skipping')
+            continue
         has_nonzero = False
         for row_num in check_rows:
             val = ws.cell(row=row_num, column=col_idx).value
@@ -188,7 +212,7 @@ def _get_cell_value(ws, row, col):
         return None
 
 
-def _extract_section_data(ws, section, quarter_num, is_last_quarter):
+def _extract_section_data(ws, section, quarter_num, is_last_quarter, visible_cols=None):
     """
     Extract data for one fund type section for one quarter.
 
@@ -197,14 +221,14 @@ def _extract_section_data(ws, section, quarter_num, is_last_quarter):
     within this fund type's block.
 
     For quarterly net savings (positions 0-9): always populated.
-    For sum/pct/assets (positions 10-49): only populated if is_last_quarter.
+    For sum/pct/assets (positions 10-49): only populated if is_last_quarter
+    AND the source column is visible (when SKIP_HIDDEN_COLUMNS is True).
     """
     data_rows = _find_category_rows(ws, section['data_start_row'])
 
     if len(data_rows) < 10:
         logger.warning(f'Section {section["fund_type"]}: only {len(data_rows)} '
                        f'category rows found')
-        # Pad with None
         while len(data_rows) < 10:
             data_rows.append(None)
 
@@ -219,33 +243,21 @@ def _extract_section_data(ws, section, quarter_num, is_last_quarter):
             values[i] = None
 
     if is_last_quarter:
-        # Positions 10-19: Net savings sum (column F)
-        for i, row_num in enumerate(data_rows):
-            if row_num is not None:
-                values[10 + i] = _get_cell_value(ws, row_num, config.EXCEL_SUM_COL)
-            else:
-                values[10 + i] = None
-
-        # Positions 20-29: Net savings % (column G)
-        for i, row_num in enumerate(data_rows):
-            if row_num is not None:
-                values[20 + i] = _get_cell_value(ws, row_num, config.EXCEL_PCT_COL)
-            else:
-                values[20 + i] = None
-
-        # Positions 30-39: Net assets (column H)
-        for i, row_num in enumerate(data_rows):
-            if row_num is not None:
-                values[30 + i] = _get_cell_value(ws, row_num, config.EXCEL_ASSET_COL)
-            else:
-                values[30 + i] = None
-
-        # Positions 40-49: Net assets % (column I)
-        for i, row_num in enumerate(data_rows):
-            if row_num is not None:
-                values[40 + i] = _get_cell_value(ws, row_num, config.EXCEL_ASSET_PCT_COL)
-            else:
-                values[40 + i] = None
+        summary_cols = [
+            (10, config.EXCEL_SUM_COL,       'NETSAVINGSUM  (F)'),
+            (20, config.EXCEL_PCT_COL,        'NETSAVINGPERC (G)'),
+            (30, config.EXCEL_ASSET_COL,      'NETASSET      (H)'),
+            (40, config.EXCEL_ASSET_PCT_COL,  'NETASSETPERC  (I)'),
+        ]
+        for base_pos, col_idx, label in summary_cols:
+            if visible_cols is not None and col_idx not in visible_cols:
+                logger.debug(f'Section {section["fund_type"]}: {label} is hidden — skipping')
+                continue
+            for i, row_num in enumerate(data_rows):
+                if row_num is not None:
+                    values[base_pos + i] = _get_cell_value(ws, row_num, col_idx)
+                else:
+                    values[base_pos + i] = None
 
     return values
 
@@ -270,9 +282,14 @@ def extract(excel_path, year):
 
     wb = openpyxl.load_workbook(excel_path, data_only=True)
 
+    # Read column visibility from the original sheet BEFORE copying —
+    # the copy method transfers cell values only, not column dimensions.
+    source_ws = wb.active
+    visible_cols_raw = _get_visible_cols(source_ws) if config.SKIP_HIDDEN_COLUMNS else None
+
     # Copy method: copy all values to a fresh sheet to get clean raw values
     ws = _copy_values_sheet(wb)
-    logger.info(f'Sheet: {wb.active.title} -> {ws.title}, '
+    logger.info(f'Sheet: {source_ws.title} -> {ws.title}, '
                 f'{ws.max_row} rows x {ws.max_column} cols')
 
     # Step 1: Dynamically find all fund type sections
@@ -288,10 +305,17 @@ def extract(excel_path, year):
     logger.info(f'Found {len(sections)} sections: '
                 f'{[s["fund_type"] for s in sections]}')
 
-    # Step 2: Detect which quarters have data
+    # Step 2: Build column visibility map (respects provider publication signal)
+    visible_cols = visible_cols_raw
+    if visible_cols is not None:
+        hidden = sorted(set(range(1, ws.max_column + 1)) - visible_cols)
+        logger.info(f'SKIP_HIDDEN_COLUMNS=True | visible cols: {sorted(visible_cols)} '
+                    f'| hidden cols: {hidden}')
+
+    # Step 3: Detect which quarters have data
     first_section = sections[0]
     first_data_rows = _find_category_rows(ws, first_section['data_start_row'])
-    quarters = _detect_quarters_with_data(ws, first_data_rows)
+    quarters = _detect_quarters_with_data(ws, first_data_rows, visible_cols)
 
     if not quarters:
         logger.warning('No quarters with data found')
@@ -300,7 +324,7 @@ def extract(excel_path, year):
     logger.info(f'Quarters with data: {quarters}')
     last_quarter = max(quarters)
 
-    # Step 3: Extract data for each quarter
+    # Step 4: Extract data for each quarter
     result = OrderedDict()
 
     for q_num in quarters:
@@ -311,7 +335,7 @@ def extract(excel_path, year):
         col_offset = 0
 
         for section in sections:
-            section_data = _extract_section_data(ws, section, q_num, is_last)
+            section_data = _extract_section_data(ws, section, q_num, is_last, visible_cols)
 
             # Map section positions (0-49) to global DATA_COLUMNS indices
             for pos, value in section_data.items():
