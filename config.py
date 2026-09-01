@@ -41,6 +41,13 @@ RETRY_DELAY          = 3.0
 # or None to auto-detect based on master CSV gaps.
 TARGET_YEARS = None
 
+# ── Column visibility gate ────────────────────────────────────────────────────
+# When True, the extractor checks each source Excel column's hidden flag before
+# extracting. The provider uses column hiding as a publication signal — a column
+# is hidden until that data is officially released. Set to False to extract all
+# columns regardless of visibility (legacy behaviour).
+SKIP_HIDDEN_COLUMNS = True
+
 # ── Output filenames ─────────────────────────────────────────────────────────
 DATA_FILE_PATTERN = 'SIFA_DATA_{timestamp}.xlsx'
 META_FILE_PATTERN = 'SIFA_META_{timestamp}.xlsx'
